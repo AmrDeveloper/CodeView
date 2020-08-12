@@ -1,2 +1,3 @@
+include ':codeview'
 include ':app'
 rootProject.name = "CodeView"
