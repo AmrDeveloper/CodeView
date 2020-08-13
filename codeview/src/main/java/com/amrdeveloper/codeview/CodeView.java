@@ -53,7 +53,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
 
     private final SortedMap<Integer, Integer> mErrorHashSet = new TreeMap<>();
     private final Map<Pattern, Integer> mSyntaxPatternMap = new HashMap<>();
-    private static final List<Character> mIndentCharacterList = Arrays.asList('{', '+', '-', '*', '/', '=');
+    private List<Character> mIndentCharacterList = Arrays.asList('{', '+', '-', '*', '/', '=');
 
     private static final String TAG = "CodeView";
 
@@ -295,6 +295,18 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         mSyntaxPatternMap.clear();
     }
 
+    public void setAutoIndentCharacterList(List<Character> characterList) {
+        mIndentCharacterList = characterList;
+    }
+
+    public void clearAutoIndentCharacterList() {
+        mIndentCharacterList.clear();
+    }
+
+    public List<Character> getAutoIndentCharacterList() {
+        return mIndentCharacterList;
+    }
+    
     public void addErrorLine(int lineNum, int color) {
         mErrorHashSet.put(lineNum, color);
         hasErrors = true;
