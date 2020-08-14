@@ -4,4 +4,43 @@
     <color name="black">#000000</color>
     <color name="grey">#8C8C8C</color>
     <color name="orange">#CC7832</color>
+    <color name="gold">#e6b121</color>
+
+    <!--Monokai Pro Theme Colors-->
+    <color name="monokia_pro_green">#9ccc6b</color>
+    <color name="monokia_pro_black">#2d2a2e</color>
+    <color name="monokia_pro_white">#fcfcfa</color>
+    <color name="monokia_pro_pink">#ff6188</color>
+    <color name="monokia_pro_sky">#78dce8</color>
+    <color name="monokia_pro_orange">#ffd866</color>
+    <color name="monokia_pro_purple">#ab9df2</color>
+    <color name="monokia_pro_grey">#727072</color>
+
+    <!--Noctis White Theme Colors-->
+    <color name="noctis_green">#7dd5a9</color>
+    <color name="noctis_black">#2d2a2e</color>
+    <color name="noctis_white">#fef8ec</color>
+    <color name="noctis_pink">#ff6b9e</color>
+    <color name="noctis_blue">#0094f0</color>
+    <color name="noctis_dark_blue">#004d57</color>
+    <color name="noctis_orange">#f5a33c</color>
+    <color name="noctis_purple">#5842ff</color>
+    <color name="noctis_grey">#99b0ae</color>
+
+    <!--5 Colors Dark Theme Colors-->
+    <color name="five_dark_black">#252526</color>
+    <color name="five_dark_blue">#267ae9</color>
+    <color name="five_dark_yellow">#fde92f</color>
+    <color name="five_dark_purple">#eb84f3</color>
+    <color name="five_dark_grey">#a9b1ae</color>
+    <color name="five_dark_white">#ffffff</color>
+
+    <!--Orange Box Theme Colors-->
+    <color name="orange_box_black">#0c0c0c</color>
+    <color name="orange_box_orange1">#f48400</color>
+    <color name="orange_box_orange2">#ef4200</color>
+    <color name="orange_box_orange3">#ad2a00</color>
+    <color name="orange_box_grey">#90a9b3</color>
+    <color name="orange_box_dark_grey">#414d63</color>
+    <color name="orange_box_white">#ffffff</color>
 </resources>
