@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CodeView</string>
+    <string name="change_theme">Change Theme</string>
 </resources>

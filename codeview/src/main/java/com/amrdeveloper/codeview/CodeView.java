@@ -306,7 +306,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     public List<Character> getAutoIndentCharacterList() {
         return mIndentCharacterList;
     }
-    
+
     public void addErrorLine(int lineNum, int color) {
         mErrorHashSet.put(lineNum, color);
         hasErrors = true;
