@@ -8,10 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.amrdeveloper.codeview.CodeView;
+import com.amrdeveloper.codeviewlibrary.syntax.Language;
 
 public class MainActivity extends AppCompatActivity {
 
     private CodeView mCodeView;
+
+    //To change themes easily
+    private Language mCurrentLanguage = Language.JAVA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         final int id = item.getItemId();
         if (id == R.id.changeMenu) {
+            //Change CodeView Theme
 
         }
         return super.onOptionsItemSelected(item);
