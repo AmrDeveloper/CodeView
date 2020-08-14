@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--DP-->
+    <dimen name="dimen20dp">20dp</dimen>
     <dimen name="dimen150dp">150dp</dimen>
+
+    <!--SP-->
+    <dimen name="dimen15sp">15sp</dimen>
 </resources>
