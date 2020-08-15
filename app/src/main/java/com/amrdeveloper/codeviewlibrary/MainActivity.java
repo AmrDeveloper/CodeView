@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.amrdeveloper.codeview.CodeView;
 import com.amrdeveloper.codeviewlibrary.syntax.Language;
+import com.amrdeveloper.codeviewlibrary.syntax.SyntaxManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,16 +46,20 @@ public class MainActivity extends AppCompatActivity {
 
             switch (mNextThemeIndex) {
                 case 1:
-
+                    SyntaxManager.applyMonokaiTheme(this, mCodeView, mCurrentLanguage);
+                    Toast.makeText(this, "Monokai", Toast.LENGTH_SHORT).show();
                     break;
                 case 2:
-
+                    SyntaxManager.applyNoctisWhiteTheme(this, mCodeView, mCurrentLanguage);
+                    Toast.makeText(this, "Noctis White", Toast.LENGTH_SHORT).show();
                     break;
                 case 3:
-
+                    SyntaxManager.applyFiveColorsDarkTheme(this, mCodeView, mCurrentLanguage);
+                    Toast.makeText(this, "5 Colors Dark", Toast.LENGTH_SHORT).show();
                     break;
                 case 4:
-
+                    SyntaxManager.applyOrangeBoxTheme(this, mCodeView, mCurrentLanguage);
+                    Toast.makeText(this, "Orange Box", Toast.LENGTH_SHORT).show();
                     break;
             }
 
