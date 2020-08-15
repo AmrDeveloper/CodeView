@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     private CodeView mCodeView;
 
+    private int mNextThemeIndex = 2;
+
     //To change themes easily
     private Language mCurrentLanguage = Language.JAVA;
 
@@ -36,7 +38,26 @@ public class MainActivity extends AppCompatActivity {
         final int id = item.getItemId();
         if (id == R.id.changeMenu) {
             //Change CodeView Theme
+            if(mNextThemeIndex > 4) {
+                mNextThemeIndex = 1;
+            }
 
+            switch (mNextThemeIndex) {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+            }
+
+            mNextThemeIndex = mNextThemeIndex + 1;
         }
         return super.onOptionsItemSelected(item);
     }
