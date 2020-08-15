@@ -52,7 +52,7 @@
     </string-array>
 
     <!--GoLang Keywords List-->
-    <string-array name="go_keyword">
+    <string-array name="go_keywords">
         <item>break</item>
         <item>default</item>
         <item>func</item>
@@ -105,7 +105,7 @@
     </string-array>
 
     <!--Python Keywords List-->
-    <string-array name="python_keyword">
+    <string-array name="python_keywords">
         <item>False</item>
         <item>await</item>
         <item>else</item>
