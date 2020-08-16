@@ -19,7 +19,7 @@ public class JavaSyntaxManager {
             "|synchronized|this|throw|transient|try|void|volatile|while)\\b");
 
     private static final Pattern PATTERN_BUILTINS = Pattern.compile("[,:;[->]{}()]");
-    private static final Pattern PATTERN_COMMENT = Pattern.compile("//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/");
+    private static final Pattern PATTERN_COMMENT = Pattern.compile("//(?!TODO )[^\\n]*" + "|" + "/\\*(.|\\R)*?\\*/");
     private static final Pattern PATTERN_ATTRIBUTE = Pattern.compile("\\.[a-zA-Z0-9_]+");
     private static final Pattern PATTERN_OPERATION =Pattern.compile( ":|==|>|<|!=|>=|<=|->|=|>|<|%|-|-=|%=|\\+|\\-|\\-=|\\+=|\\^|\\&|\\|::|\\?|\\*");
     private static final Pattern PATTERN_GENERIC = Pattern.compile("<[a-zA-Z0-9,<>]+>");

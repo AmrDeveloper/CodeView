@@ -24,7 +24,7 @@ public class GoSyntaxManager {
     private static final Pattern PATTERN_STRING = Pattern.compile("\".*\"");
     private static final Pattern PATTERN_HEX = Pattern.compile("0x[0-9a-fA-F]+");
     private static final Pattern PATTERN_TODO_COMMENT = Pattern.compile("//TODO[^\n]*");
-    private static final Pattern PATTERN_COMMENT = Pattern.compile("//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/");
+    private static final Pattern PATTERN_COMMENT = Pattern.compile("//(?!TODO )[^\\n]*" + "|" + "/\\*(.|\\R)*?\\*/");
     private static final Pattern PATTERN_ATTRIBUTE = Pattern.compile("\\.[a-zA-Z0-9_]+");
     private static final Pattern PATTERN_OPERATION =Pattern.compile( ":|==|>|<|!=|>=|<=|->|=|>|<|%|-|-=|%=|\\+|\\-|\\-=|\\+=|\\^|\\&|\\|::|\\?|\\*");
 
