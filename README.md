@@ -1,5 +1,6 @@
 # CodeView
-[![Min API Level](https://img.shields.io/badge/API-%2B14-brightgreen)]()  
+[![Min API Level](https://img.shields.io/badge/API-%2B14-brightgreen)]() 
+[![Jitpack Version](https://jitpack.io/v/AmrDeveloper/CodeView.svg)](https://jitpack.io/#AmrDeveloper/CodeView)
 
 Android Library to make it easy to create your CodeEditor or IDE for any programming language 
 even for your own programming language, just config the view with your langauge keywords and other attributes
@@ -25,6 +26,25 @@ and CodeView has AutoComplete and you can customize it with different keywords a
 - [MathScript](https://play.google.com/store/apps/details?id=com.amrdeveloper.mathscript)
 
 ##### If you use CodeView in an interesting project, I would like to know!
+
+#### Add CodeView to your project
+
+##### Add it in your root build.gradle
+````gradle
+allprojects {
+	repositories {
+	   ...
+	   maven { url 'https://jitpack.io' }
+	}
+}
+````
+
+##### Add the dependency
+````gradle
+dependencies { 
+    implementation 'com.github.AmrDeveloper.CodeView:codeview:1.0.0
+}
+````
 
 #### Documentation:
 CodeView is based on AppCompatMultiAutoCompleteTextView
