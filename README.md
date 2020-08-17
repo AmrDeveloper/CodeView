@@ -15,12 +15,12 @@ and CodeView has AutoComplete and you can customize it with different keywords a
 </p>
 
 ### Main Features:
-- Can support any programming langauge you want
+- Can support any programming language you want
 - Can support AutoComplete and customize it with different tokenizers and design
 - Can support any theme you want and change it in the runtime
-- Syntax Hightlighter depend on your patterns so you can support any features like TODO comment
+- Syntax Highlighter depend on your patterns so you can support any features like TODO comment
 - Can support errors and warns with different colors and remove them in the runtime
-- Can change highlgihter update delay time
+- Can change highlighter update delay time
 
 #### Who uses CodeView?
 - [MathScript](https://play.google.com/store/apps/details?id=com.amrdeveloper.mathscript)
