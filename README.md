@@ -12,6 +12,8 @@ and CodeView has AutoComplete and you can customize it with different keywords a
   <img src="screenshots/python_demo.gif" alt="animated" />
   <img src="screenshots/java_demo.gif" alt="animated" />
   <img src="screenshots/golang_demo.gif" alt="animated" />
+  <img src="screenshots/multi_comments_demo.png" alt="animated" />
+  <img src="screenshots/error_line_demo.png" alt="animated" />
 </p>
 
 ### Main Features:
