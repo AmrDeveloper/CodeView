@@ -3,9 +3,9 @@
 [![Jitpack Version](https://jitpack.io/v/AmrDeveloper/CodeView.svg)](https://jitpack.io/#AmrDeveloper/CodeView)
 
 Android Library to make it easy to create your CodeEditor or IDE for any programming language 
-even for your own programming language, just config the view with your langauge keywords and other attributes
-and you can change CodeView theme in the runtime so it's make easy to support any number of themes, 
-and CodeView has AutoComplete and you can customize it with different keywords and tokenizers
+even for your programming language, just config the view with your language keywords and other attributes
+and you can change the CodeView theme in the runtime so it's made it easy to support any number of themes, 
+and CodeView has AutoComplete and you can customize it with different keywords and tokenizers.
 
 ### Demo
 <p align="center">
@@ -31,7 +31,7 @@ and CodeView has AutoComplete and you can customize it with different keywords a
 
 #### Add CodeView to your project
 
-##### Add it in your root build.gradle
+##### Add it to your root build.gradle
 ````gradle
 allprojects {
 	repositories {
