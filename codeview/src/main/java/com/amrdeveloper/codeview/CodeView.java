@@ -17,7 +17,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.ColorInt;
@@ -39,7 +38,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     private int tabWidthInCharacters;
     private int mUpdateDelayTime = 500;
 
-    private boolean dirty;
     private boolean modified = true;
     private boolean hasErrors;
     private boolean mRemoveErrorsWhenTextChanged;
@@ -54,9 +52,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     private final SortedMap<Integer, Integer> mErrorHashSet = new TreeMap<>();
     private final Map<Pattern, Integer> mSyntaxPatternMap = new HashMap<>();
     private List<Character> mIndentCharacterList = Arrays.asList('{', '+', '-', '*', '/', '=');
-
-    private static final String TAG = "CodeView";
-
+    
     public CodeView(Context context) {
         super(context);
         initEditorView();
@@ -103,7 +99,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     }
 
     private CharSequence autoIndent(CharSequence source, Spanned dest, int dstart, int dend) {
-        Log.d(TAG, "autoIndent: Auto Indent");
         String indent = "";
         int istart = dstart - 1;
 
@@ -206,7 +201,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
             highlightSyntax(editable);
         }
         catch (IllegalStateException e) {
-            Log.e(TAG,  "Highlighter Error Message : " + e.getMessage());
+            e.printStackTrace();
         }
         return editable;
     }
@@ -223,7 +218,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         cancelHighlighterRender();
 
         removeAllErrorLines();
-        dirty = false;
 
         modified = false;
         setText(highlight(new SpannableStringBuilder(text)));
@@ -231,10 +225,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     }
 
     public void setTabWidth(int characters) {
-        if (tabWidthInCharacters == characters) {
-            return;
-        }
-
+        if (tabWidthInCharacters == characters) return;
         tabWidthInCharacters = characters;
         tabWidth = Math.round(getPaint().measureText("m") * characters);
     }
@@ -259,9 +250,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     }
 
     private void convertTabs(Editable editable, int start, int count) {
-        if (tabWidth < 1) {
-            return;
-        }
+        if (tabWidth < 1) return;
 
         String s = editable.toString();
 
@@ -411,8 +400,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
                 convertTabs(editable, start, count);
 
                 if (!modified) return;
-
-                dirty = true;
 
                 mUpdateHandler.postDelayed(mUpdateRunnable, mUpdateDelayTime);
 
