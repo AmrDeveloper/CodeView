@@ -7,7 +7,7 @@ even for your programming language, just config the view with your language keyw
 and you can change the CodeView theme in the runtime so it's made it easy to support any number of themes, 
 and CodeView has AutoComplete and you can customize it with different keywords and tokenizers.
 
-### Demo
+## Demo
 <p align="center">
   <img src="screenshots/python_demo.gif" alt="animated" />
   <img src="screenshots/java_demo.gif" alt="animated" />
@@ -16,18 +16,18 @@ and CodeView has AutoComplete and you can customize it with different keywords a
   <img src="screenshots/error_line_demo.png" alt="animated" width="242" height="480" />
 </p>
 
-### Main Features:
-- Can support any programming language you want
-- Can support AutoComplete and customize it with different tokenizers and design
-- Can support any theme you want and change it in the runtime
-- Syntax Highlighter depend on your patterns so you can support any features like TODO comment
-- Can support errors and warns with different colors and remove them in the runtime
-- Can change highlighter update delay time
+- Main Features
+  - Can support any programming language you want
+  - Can support AutoComplete and customize it with different tokenizers and design
+  - Can support any theme you want and change it in the runtime
+  - Syntax Highlighter depend on your patterns so you can support any features like TODO comment
+  - Can support errors and warns with different colors and remove them in the runtime
+  - Can change highlighter update delay time
 
-#### Who uses CodeView?
-- [MathScript](https://play.google.com/store/apps/details?id=com.amrdeveloper.mathscript)
+- Project that used CodeView
+  - [MathScript](https://play.google.com/store/apps/details?id=com.amrdeveloper.mathscript)
 
-##### If you use CodeView in an interesting project, I would like to know!
+##### If you use CodeView in an interesting project, I would like to know
 
 #### Add CodeView to your project
 
@@ -48,7 +48,7 @@ dependencies {
 }
 ````
 
-#### Documentation:
+#### Documentation
 CodeView is based on AppCompatMultiAutoCompleteTextView
 
 Add CodeView on your xml 

@@ -9,13 +9,13 @@ public class SyntaxManager {
     public static void applyMonokaiTheme(Context context, CodeView codeView, Language language) {
         switch (language) {
             case JAVA:
-                JavaSyntaxManager.applyMonokaiTheme(context, codeView);
+                JavaSyntaxUtils.applyMonokaiTheme(context, codeView);
                 break;
             case PYTHON:
-                PythonSyntaxManager.applyMonokaiTheme(context, codeView);
+                PythonSyntaxUtils.applyMonokaiTheme(context, codeView);
                 break;
             case GO_LANG:
-                GoSyntaxManager.applyMonokaiTheme(context, codeView);
+                GoSyntaxUtils.applyMonokaiTheme(context, codeView);
                 break;
         }
     }
@@ -23,13 +23,13 @@ public class SyntaxManager {
     public static void applyNoctisWhiteTheme(Context context, CodeView codeView, Language language) {
         switch (language) {
             case JAVA:
-                JavaSyntaxManager.applyNoctisWhiteTheme(context, codeView);
+                JavaSyntaxUtils.applyNoctisWhiteTheme(context, codeView);
                 break;
             case PYTHON:
-                PythonSyntaxManager.applyNoctisWhiteTheme(context, codeView);
+                PythonSyntaxUtils.applyNoctisWhiteTheme(context, codeView);
                 break;
             case GO_LANG:
-                GoSyntaxManager.applyNoctisWhiteTheme(context, codeView);
+                GoSyntaxUtils.applyNoctisWhiteTheme(context, codeView);
                 break;
         }
     }
@@ -37,13 +37,13 @@ public class SyntaxManager {
     public static void applyFiveColorsDarkTheme(Context context, CodeView codeView, Language language) {
         switch (language) {
             case JAVA:
-                JavaSyntaxManager.applyFiveColorsDarkTheme(context, codeView);
+                JavaSyntaxUtils.applyFiveColorsDarkTheme(context, codeView);
                 break;
             case PYTHON:
-                PythonSyntaxManager.applyFiveColorsDarkTheme(context, codeView);
+                PythonSyntaxUtils.applyFiveColorsDarkTheme(context, codeView);
                 break;
             case GO_LANG:
-                GoSyntaxManager.applyFiveColorsDarkTheme(context, codeView);
+                GoSyntaxUtils.applyFiveColorsDarkTheme(context, codeView);
                 break;
         }
     }
@@ -51,13 +51,13 @@ public class SyntaxManager {
     public static void applyOrangeBoxTheme(Context context, CodeView codeView, Language language) {
         switch (language) {
             case JAVA:
-                JavaSyntaxManager.applyOrangeBoxTheme(context, codeView);
+                JavaSyntaxUtils.applyOrangeBoxTheme(context, codeView);
                 break;
             case PYTHON:
-                PythonSyntaxManager.applyOrangeBoxTheme(context, codeView);
+                PythonSyntaxUtils.applyOrangeBoxTheme(context, codeView);
                 break;
             case GO_LANG:
-                GoSyntaxManager.applyOrangeBoxTheme(context, codeView);
+                GoSyntaxUtils.applyOrangeBoxTheme(context, codeView);
                 break;
         }
     }

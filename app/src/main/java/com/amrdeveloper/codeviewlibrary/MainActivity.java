@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private int mNextThemeIndex = 2;
 
     //To change themes easily
-    private Language mCurrentLanguage = Language.JAVA;
+    private final Language mCurrentLanguage = Language.JAVA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +37,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configLanguageAutoComplete() {
-        //Load current Programming Language
         final String[] languageKeywords;
-        switch (mCurrentLanguage){
+        switch (mCurrentLanguage) {
             case JAVA:
                 languageKeywords = getResources().getStringArray(R.array.java_keywords);
                 break;
@@ -78,11 +77,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeCodeViewTheme() {
-        //Change CodeView Theme
-        if(mNextThemeIndex > 4) {
-            mNextThemeIndex = 1;
-        }
+        if (mNextThemeIndex > 4) mNextThemeIndex = 1;
+        loadNextTheme();
+        mNextThemeIndex = mNextThemeIndex + 1;
+    }
 
+    private void loadNextTheme() {
         switch (mNextThemeIndex) {
             case 1:
                 SyntaxManager.applyMonokaiTheme(this, mCodeView, mCurrentLanguage);
@@ -96,12 +96,11 @@ public class MainActivity extends AppCompatActivity {
                 SyntaxManager.applyFiveColorsDarkTheme(this, mCodeView, mCurrentLanguage);
                 Toast.makeText(this, "5 Colors Dark", Toast.LENGTH_SHORT).show();
                 break;
-            case 4:
+            default:
                 SyntaxManager.applyOrangeBoxTheme(this, mCodeView, mCurrentLanguage);
                 Toast.makeText(this, "Orange Box", Toast.LENGTH_SHORT).show();
                 break;
         }
-
-        mNextThemeIndex = mNextThemeIndex + 1;
     }
+
 }

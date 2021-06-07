@@ -7,7 +7,7 @@ import com.amrdeveloper.codeviewlibrary.R;
 
 import java.util.regex.Pattern;
 
-public class PythonSyntaxManager {
+public class PythonSyntaxUtils {
 
     //Language Keywords
     private static final Pattern PATTERN_KEYWORDS = Pattern.compile("\\b(False|await|else|import|pass|None|break|except|in|raise" +
