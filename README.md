@@ -1,6 +1,7 @@
 # CodeView
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/343df315aa3b40e09e6e98cf32ff8468)](https://app.codacy.com/gh/AmrDeveloper/CodeView?utm_source=github.com&utm_medium=referral&utm_content=AmrDeveloper/CodeView&utm_campaign=Badge_Grade_Settings)
-[![Min API Level](https://img.shields.io/badge/API-%2B14-brightgreen)]() 
+![Build](https://github.com/amrdeveloper/codeview/actions/workflows/build.yml/badge.svg)
+[![Min API Level](https://img.shields.io/badge/API-%2B14-brightgreen)]()
 [![Jitpack Version](https://jitpack.io/v/AmrDeveloper/CodeView.svg)](https://jitpack.io/#AmrDeveloper/CodeView)
 
 Android Library to make it easy to create your CodeEditor or IDE for any programming language 
@@ -66,7 +67,7 @@ Add CodeView on your xml
     android:gravity="top|start" />
 ```
 
-Initalize CodeView
+Initialize CodeView
 
 ```java
 CodeView codeView = findViewById(R.id.codeview);
@@ -90,7 +91,7 @@ Or add all patterns as an Map Object
 codeView.setSyntaxPatternsMap(syntaxPatterns);
 ```
 
-Rehighlight the text depend on the new patterns
+Highlight the text depend on the new patterns
   
 ```java
 codeView.reHighlightSyntax();
@@ -108,7 +109,7 @@ Clear all error lines
 codeView.removeAllErrorLines();
 ```
 
-Rehighlight the erros depend on the error lines
+Highlight the errors depend on the error lines
 
 ```java
 codeView.reHighlightErrors();
@@ -117,7 +118,7 @@ codeView.reHighlightErrors();
 Add Custom AutoComplete Adapter
 
 ```java
-//Your langauge keywords
+//Your language keywords
 String[] languageKeywords = .....
 //List item custom layout 
 int layoutId = .....
