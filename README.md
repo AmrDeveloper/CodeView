@@ -46,7 +46,7 @@ allprojects {
 ##### Add the dependency
 ````gradle
 dependencies { 
-     implementation 'com.github.AmrDeveloper:CodeView:1.0.0'
+     implementation 'com.github.AmrDeveloper:CodeView:1.0.1'
 }
 ````
 
