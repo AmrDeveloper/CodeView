@@ -39,8 +39,10 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     private int mUpdateDelayTime = 500;
 
     private boolean modified = true;
-    private boolean hasErrors;
-    private boolean mRemoveErrorsWhenTextChanged;
+    private boolean highlightWhileTextChanging = true;
+
+    private boolean hasErrors = false;
+    private boolean mRemoveErrorsWhenTextChanged = true;
 
     private final Handler mUpdateHandler = new Handler();
     private MultiAutoCompleteTextView.Tokenizer mAutoCompleteTokenizer;
@@ -194,8 +196,9 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     }
 
     private Editable highlight(Editable editable) {
+        if(editable.length() == 0) return editable;
+
         try {
-            if(editable.length() == 0) return editable;
             clearSpans(editable);
             highlightErrorLines(editable);
             highlightSyntax(editable);
@@ -213,7 +216,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     }
 
     public void setTextHighlighted(CharSequence text) {
-        if (text == null) text = "";
+        if (text == null || text.length() == 0) return;
 
         cancelHighlighterRender();
 
@@ -349,6 +352,10 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         return mUpdateDelayTime;
     }
 
+    public void setHighlightWhileTextChanging(boolean updateWhileTextChanging) {
+        this.highlightWhileTextChanging = updateWhileTextChanging;
+    }
+
     @Override
     public void showDropDown() {
         int[] screenPoint = new int[2];
@@ -390,20 +397,29 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+            if (!modified) return;
+
+            if(highlightWhileTextChanging) {
+                if (mSyntaxPatternMap.size() > 0) {
+                    convertTabs(getEditableText(), start, count);
+                    mUpdateHandler.postDelayed(mUpdateRunnable, mUpdateDelayTime);
+                }
+            }
+
+            if (mRemoveErrorsWhenTextChanged) removeAllErrorLines();
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-            cancelHighlighterRender();
-
-            if(getSyntaxPatternsSize() > 0) {
-                convertTabs(editable, start, count);
-
+            if(!highlightWhileTextChanging) {
                 if (!modified) return;
 
-                mUpdateHandler.postDelayed(mUpdateRunnable, mUpdateDelayTime);
+                cancelHighlighterRender();
 
-                if (mRemoveErrorsWhenTextChanged) removeAllErrorLines();
+                if (mSyntaxPatternMap.size() > 0) {
+                    convertTabs(getEditableText(), start, count);
+                    mUpdateHandler.postDelayed(mUpdateRunnable, mUpdateDelayTime);
+                }
             }
         }
     };

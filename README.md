@@ -142,4 +142,10 @@ Set highlighter update delay
 codeView.setUpdateDelayTime();
 ```
 
+Enable/Disable highlight the code while the text is changing
+
+```java
+codeView.setHighlightWhileTextChanging(enableHighlighter);
+```
+
 #### For real examples on how to use CodeView check the example app
