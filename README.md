@@ -3,6 +3,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/amrdeveloper/codeview/badge)](https://www.codefactor.io/repository/github/amrdeveloper/codeview)
 ![Build](https://github.com/amrdeveloper/codeview/actions/workflows/build.yml/badge.svg)
 [![Min API Level](https://img.shields.io/badge/API-%2B14-brightgreen)]()
+![Maven Central](https://img.shields.io/maven-central/v/io.github.amrdeveloper/codeview?color=green)
 [![Jitpack Version](https://jitpack.io/v/AmrDeveloper/CodeView.svg)](https://jitpack.io/#AmrDeveloper/CodeView)
 
 Android Library to make it easy to create your CodeEditor or IDE for any programming language 
@@ -32,24 +33,35 @@ and CodeView has AutoComplete and you can customize it with different keywords a
 
 ##### If you use CodeView in an interesting project, I would like to know
 
-#### Add CodeView to your project
+### Add CodeView to your project 
+#### Add CodeView from Maven Central
 
-##### Add it to your root build.gradle
-````gradle
-allprojects {
-	repositories {
-	   ...
-	   maven { url 'https://jitpack.io' }
-	}
-}
-````
-
-##### Add the dependency
-````gradle
+```gradle
 dependencies { 
-     implementation 'com.github.AmrDeveloper:CodeView:1.0.1'
+    implementation 'io.github.amrdeveloper:codeview:1.0.0'
 }
-````
+```
+
+<details>
+  <summary>Or Add CodeView from Jitpack.IO</summary>
+  
+  ##### Add it to your root build.gradle
+  ````gradle
+  allprojects {
+      repositories {
+          ...
+          maven { url 'https://jitpack.io' }
+      }
+  }
+  ````
+
+  ##### Add the dependency
+  ````gradle
+  dependencies { 
+      implementation 'com.github.AmrDeveloper:CodeView:1.0.1'
+  }
+  ````
+</details>
 
 #### Documentation
 CodeView is based on AppCompatMultiAutoCompleteTextView
