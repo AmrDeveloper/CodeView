@@ -26,6 +26,7 @@ import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -43,6 +44,10 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
 
     private boolean hasErrors = false;
     private boolean mRemoveErrorsWhenTextChanged = true;
+
+    private Rect lineNumberRect;
+    private Paint lineNumberPaint;
+    private boolean enableLineNumber = false;
 
     private final Handler mUpdateHandler = new Handler();
     private MultiAutoCompleteTextView.Tokenizer mAutoCompleteTokenizer;
@@ -97,7 +102,34 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
                     }
                 }
         });
+
         addTextChangedListener(mEditorTextWatcher);
+
+        lineNumberRect = new Rect();
+        lineNumberPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        lineNumberPaint.setStyle(Paint.Style.FILL);
+    }
+
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (enableLineNumber) {
+            int baseline;
+            int lineCount = getLineCount();
+            int lineNumber = 1;
+
+            for (int i = 0; i < lineCount; ++i) {
+                baseline = getLineBounds(i, null);
+                if (i == 0 || getText().charAt(getLayout().getLineStart(i) - 1) == '\n') {
+                    canvas.drawText(String.format(Locale.ENGLISH, " %d", lineNumber), lineNumberRect.left, baseline, lineNumberPaint);
+                    ++lineNumber;
+                }
+            }
+
+            int paddingLeft = 40 + (int) (Math.log10(lineCount) + 1) * 10;
+            setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
+        }
+        super.onDraw(canvas);
     }
 
     private CharSequence autoIndent(CharSequence source, Spanned dest, int dstart, int dend) {
@@ -354,6 +386,22 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
 
     public void setHighlightWhileTextChanging(boolean updateWhileTextChanging) {
         this.highlightWhileTextChanging = updateWhileTextChanging;
+    }
+
+    public void setEnableLineNumber(boolean enableLineNumber) {
+        this.enableLineNumber = enableLineNumber;
+    }
+
+    public boolean isLineNumberEnabled() {
+        return enableLineNumber;
+    }
+
+    public void setLineNumberTextColor(int color) {
+        lineNumberPaint.setColor(color);
+    }
+
+    public void setLineNumberTextSize(float size) {
+        lineNumberPaint.setTextSize(size);
     }
 
     @Override
