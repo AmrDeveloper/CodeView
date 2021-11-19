@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 
-apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
-
 android {
     compileSdkVersion 31
 
