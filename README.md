@@ -27,9 +27,8 @@ and CodeView has AutoComplete and you can customize it with different keywords a
   - Syntax Highlighter depend on your patterns so you can support any features like TODO comment
   - Can support errors and warns with different colors and remove them in the runtime
   - Can change highlighter update delay time
-
-- Project that used CodeView
-  - [MathScript](https://play.google.com/store/apps/details?id=com.amrdeveloper.mathscript)
+  - Support Code snippets and change it in the runtime
+  - Support optional Line Number with customization
 
 ##### If you use CodeView in an interesting project, I would like to know
 
@@ -38,7 +37,7 @@ and CodeView has AutoComplete and you can customize it with different keywords a
 
 ```gradle
 dependencies { 
-    implementation 'io.github.amrdeveloper:codeview:1.0.0'
+    implementation 'io.github.amrdeveloper:codeview:1.1.0'
 }
 ```
 
@@ -58,7 +57,7 @@ dependencies {
   ##### Add the dependency
   ````gradle
   dependencies { 
-      implementation 'com.github.AmrDeveloper:CodeView:1.0.1'
+      implementation 'com.github.AmrDeveloper:CodeView:1.1.0'
   }
   ````
 </details>
@@ -143,6 +142,24 @@ ArrayAdapter<String> adapter = new ArrayAdapter<>(context, layoutId, viewId, lan
 codeView.setAdapter(adapter);
 ```
 
+Add Custom AutoComplete Adapter that support keywords and Snippets
+
+```java
+List<Code> codes = new ArrayList<>();
+codes.add(new Snippet(..., ..., ...));
+codes.add(new Keyword(..., ..., ...));
+
+//Your language keywords
+String[] languageKeywords = .....
+//List item custom layout
+int layoutId = .....
+//TextView id on your custom layout to put suggestion on it
+int viewId = .....
+
+CodeViewAdapter codeAdapter = new CodeViewAdapter(context, layoutId, viewId, codes);
+codeView.setAdapter(codeAdapter);
+```
+
 Add Custom AutoComplete Tokenizer
     
 ```java
@@ -159,6 +176,24 @@ Enable/Disable highlight the code while the text is changing
 
 ```java
 codeView.setHighlightWhileTextChanging(enableHighlighter);
+```
+
+Enable/Disable line number
+
+```java
+codeView.setEnableLineNumber(enableLineNumber);
+```
+
+Set line number text color
+
+```java
+codeView.setLineNumberTextColor(Color.GREY);
+```
+
+Set line number text size
+
+```java
+codeView.setLineNumberTextSize(size);
 ```
 
 #### For real examples on how to use CodeView check the example app
