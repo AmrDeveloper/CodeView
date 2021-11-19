@@ -1,0 +1,103 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+ext {
+    PUBLISH_GROUP_ID = 'io.github.amrdeveloper'
+    PUBLISH_VERSION = '1.1.0'
+    PUBLISH_ARTIFACT_ID = 'codeview'
+}
+
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+
+    Properties p = new Properties()
+    new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
+    p.each { name, value ->
+        ext[name] = value
+        println(name)
+        println(value)
+    }
+}
+
+group = PUBLISH_GROUP_ID
+version = PUBLISH_VERSION
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "source"
+}
+
+task javadoc(type: Javadoc) {
+    afterEvaluate {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        destinationDir = file("../javadoc/")
+        failOnError false
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set("javadoc")
+    from tasks.javadoc.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives javadocJar
+    archives androidSourcesJar
+}
+
+
+afterEvaluate {
+    signing {
+        sign configurations.archives
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+            pom.project {
+                packaging 'aar'
+                description = 'Android Library to make it easy to create a code editor'
+                url = 'https://github.com/amrdeveloper/codeview'
+                name = PUBLISH_ARTIFACT_ID
+                artifactId = PUBLISH_ARTIFACT_ID
+                scm {
+                    connection = 'scm:git:git://github.com/amrdeveloper/codeview.git'
+                    developerConnection = 'scm:git:ssh://github.com:amrdeveloper/codeview.git'
+                    url = 'http://github.com/amrdeveloper/codeview/tree/master'
+                }
+
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url 'https://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'amrdeveloper'
+                        name = 'Amr Hesham'
+                        email = 'amr96@programmer.net'
+                    }
+                }
+            }
+        }
+    }
+}
