@@ -51,7 +51,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
 
     private final Handler mUpdateHandler = new Handler();
     private MultiAutoCompleteTextView.Tokenizer mAutoCompleteTokenizer;
-    private final float displayDensity = getResources().getDisplayMetrics().density;
 
     private static final Pattern PATTERN_LINE = Pattern.compile("(^.+$)+", Pattern.MULTILINE);
     private static final Pattern PATTERN_TRAILING_WHITE_SPACE = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
@@ -415,12 +414,12 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         int position = getSelectionStart();
         Layout layout = getLayout();
         int line = layout.getLineForOffset(position);
+        int lineButton = layout.getLineBottom(line);
+        int dropDownVerticalOffset = lineButton + 140;
+        int dropDownHorizontalOffset = (int) layout.getPrimaryHorizontal(position);
+        setDropDownVerticalOffset(dropDownVerticalOffset);
+        setDropDownHorizontalOffset(dropDownHorizontalOffset);
 
-        float verticalDistanceInDp = (750 + 140 * line) / displayDensity;
-        setDropDownVerticalOffset((int)verticalDistanceInDp);
-
-        float horizontalDistanceInDp = layout.getPrimaryHorizontal(position) / displayDensity;
-        setDropDownHorizontalOffset((int) horizontalDistanceInDp);
         super.showDropDown();
     }
 
