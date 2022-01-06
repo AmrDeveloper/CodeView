@@ -5,14 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.amrdeveloper.codeview.CodeView;
 import com.amrdeveloper.codeviewlibrary.syntax.Language;
 import com.amrdeveloper.codeviewlibrary.syntax.SyntaxManager;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -92,9 +97,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         final int id = item.getItemId();
-        if (id == R.id.changeMenu) {
-            changeCodeViewTheme();
-        }
+        if (id == R.id.changeMenu) changeCodeViewTheme();
+        else if (id == R.id.findMenu) launchEditorButtonSheet();
         return super.onOptionsItemSelected(item);
     }
 
@@ -125,4 +129,52 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void launchEditorButtonSheet() {
+        final BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(R.layout.bottom_sheet_dialog);
+        dialog.getWindow().setDimAmount(0f);
+
+        final EditText searchEdit = dialog.findViewById(R.id.search_edit);
+        final EditText replacementEdit = dialog.findViewById(R.id.replacement_edit);
+
+        final ImageButton findPrevAction = dialog.findViewById(R.id.find_prev_action);
+        final ImageButton findNextAction = dialog.findViewById(R.id.find_next_action);
+        final ImageButton replacementAction = dialog.findViewById(R.id.replace_action);
+
+        searchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+                if (text.isEmpty()) mCodeView.clearMatches();
+                mCodeView.findMatches(text);
+            }
+        });
+
+        findPrevAction.setOnClickListener(v -> {
+            mCodeView.findPrevMatch();
+        });
+
+        findNextAction.setOnClickListener(v -> {
+            mCodeView.findNextMatch();
+        });
+
+        replacementAction.setOnClickListener(v -> {
+            String regex = searchEdit.getText().toString();
+            String replacement = replacementEdit.getText().toString();
+            mCodeView.replaceAllMatches(regex, replacement);
+        });
+
+        dialog.setOnDismissListener(c -> mCodeView.clearMatches());
+        dialog.show();
+    }
 }

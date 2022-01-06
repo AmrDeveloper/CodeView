@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:padding="@dimen/dimen10dp">
+
+    <EditText
+        android:id="@+id/search_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen45dp"
+        android:layout_toStartOf="@id/find_prev_action"
+        android:layout_toLeftOf="@id/find_prev_action"
+        android:gravity="center"
+        android:hint="@string/search_keyword"
+        android:lines="1"
+        android:textColor="@color/monokia_pro_grey"
+        android:textColorHint="@color/monokia_pro_grey" />
+
+    <ImageButton
+        android:id="@+id/find_prev_action"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen45dp"
+        android:layout_toStartOf="@id/find_next_action"
+        android:layout_toLeftOf="@id/find_next_action"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/find_previous_match"
+        android:padding="@dimen/dimen5dp"
+        android:src="@drawable/ic_arrow_upward" />
+
+    <ImageButton
+        android:id="@+id/find_next_action"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/find_next_match"
+        android:padding="@dimen/dimen5dp"
+        android:src="@drawable/ic_arrow_downward" />
+
+    <EditText
+        android:id="@+id/replacement_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen45dp"
+        android:layout_below="@id/search_edit"
+        android:layout_toStartOf="@id/replace_action"
+        android:layout_toLeftOf="@id/replace_action"
+        android:gravity="center"
+        android:hint="@string/replacement"
+        android:lines="1"
+        android:textColor="@color/monokia_pro_grey"
+        android:textColorHint="@color/monokia_pro_grey" />
+
+    <ImageButton
+        android:id="@+id/replace_action"
+        android:layout_width="@dimen/dimen45dp"
+        android:layout_height="@dimen/dimen45dp"
+        android:layout_below="@id/search_edit"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/replace_all"
+        android:padding="@dimen/dimen5dp"
+        android:src="@drawable/ic_find_replace" />
+</RelativeLayout>

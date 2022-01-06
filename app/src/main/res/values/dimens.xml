@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--DP-->
+    <dimen name="dimen5dp">5dp</dimen>
+    <dimen name="dimen10dp">10dp</dimen>
     <dimen name="dimen20dp">20dp</dimen>
+    <dimen name="dimen45dp">45dp</dimen>
     <dimen name="dimen150dp">150dp</dimen>
 
     <!--SP-->
