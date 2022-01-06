@@ -2,6 +2,7 @@ package com.amrdeveloper.codeview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
 import android.util.AttributeSet;
@@ -23,8 +25,10 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +37,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CodeView extends AppCompatMultiAutoCompleteTextView {
+public class CodeView extends AppCompatMultiAutoCompleteTextView implements Findable, Replaceable {
 
     private int tabWidth = 0;
     private int tabLength = 0;
@@ -54,6 +58,11 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     private boolean enableAutoIndentation = false;
     private final Set<Character> indentationStarts = new HashSet<>();
     private final Set<Character> indentationEnds = new HashSet<>();
+
+    private int currentMatchedIndex = -1;
+    private int matchingColor = Color.YELLOW;
+    private CharacterStyle currentMatchedToken;
+    private final List<Token> matchedTokens = new ArrayList<>();
 
     private final Handler mUpdateHandler = new Handler();
     private MultiAutoCompleteTextView.Tokenizer mAutoCompleteTokenizer;
@@ -114,6 +123,60 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         super.onDraw(canvas);
     }
 
+    @Override
+    public List<Token> findMatches(String regex) {
+        matchedTokens.clear();
+        if (regex.isEmpty()) return matchedTokens;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(getText());
+        while (matcher.find()) matchedTokens.add(new Token(matcher.start(), matcher.end()));
+        return matchedTokens;
+    }
+
+    @Override
+    public Token findNextMatch() {
+        if (matchedTokens.isEmpty()) return null;
+        currentMatchedIndex++;
+        if (currentMatchedIndex >= matchedTokens.size()) currentMatchedIndex = 0;
+        Token currentMatch = matchedTokens.get(currentMatchedIndex);
+        clearHighlightingMatchingToken();
+        highlightMatchingToken(currentMatch);
+        return currentMatch;
+    }
+
+    @Override
+    public Token findPrevMatch() {
+        if (matchedTokens.isEmpty()) return null;
+        currentMatchedIndex--;
+        if (currentMatchedIndex < 0) currentMatchedIndex = 0;
+        Token currentMatch = matchedTokens.get(currentMatchedIndex);
+        clearHighlightingMatchingToken();
+        highlightMatchingToken(currentMatch);
+        return currentMatch;
+    }
+
+    @Override
+    public void clearMatches() {
+        clearHighlightingMatchingToken();
+        currentMatchedToken = null;
+        currentMatchedIndex = -1;
+        matchedTokens.clear();
+    }
+
+    @Override
+    public void replaceFirstMatch(String regex, String replacement) {
+        Pattern pattern = Pattern.compile(regex);
+        String text = pattern.matcher(getText().toString()).replaceFirst(replacement);
+        setTextHighlighted(text);
+    }
+
+    @Override
+    public void replaceAllMatches(String regex, String replacement) {
+        Pattern pattern = Pattern.compile(regex);
+        String text = pattern.matcher(getText().toString()).replaceAll(replacement);
+        setTextHighlighted(text);
+    }
+
     private void highlightSyntax(Editable editable) {
         if(mSyntaxPatternMap.isEmpty()) return;
 
@@ -151,6 +214,18 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         editable.setSpan(new BackgroundColorSpan(color),
                 matcher.start(), matcher.end(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    private void highlightMatchingToken(Token token) {
+        currentMatchedToken = new BackgroundColorSpan(matchingColor);
+        getEditableText().setSpan(currentMatchedToken,
+                token.getStart(), token.getEnd(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    private void clearHighlightingMatchingToken() {
+        if (currentMatchedToken == null) return;
+        getEditableText().removeSpan(currentMatchedToken);
     }
 
     private Editable highlight(Editable editable) {
@@ -335,6 +410,10 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         lineNumberPaint.setTextSize(size);
     }
 
+    public void setMatchingHighlightColor(int color) {
+        matchingColor = color;
+    }
+
     @Override
     public void showDropDown() {
         int[] screenPoint = new int[2];
@@ -446,9 +525,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     private CharSequence applyIndentation(CharSequence source, int indentation) {
         StringBuilder sourceCode = new StringBuilder();
         sourceCode.append(source);
-        for (int i = 0; i < indentation; i++) {
-            sourceCode.append(" ");
-        }
+        for (int i = 0; i < indentation; i++) sourceCode.append(" ");
         return sourceCode.toString();
     }
 
