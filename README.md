@@ -197,4 +197,70 @@ Set line number text size
 codeView.setLineNumberTextSize(size);
 ```
 
+Set Tab length
+
+```
+codeView.setTabLength(4);
+```
+
+Enable/Disable Auto Indentation
+
+```
+codeView.setEnableAutoIndentation(enableIndentation);
+```
+
+Set Indentations Starts
+
+```
+codeView.setIndentationStarts(indentationStart);
+```
+
+Set Indentations Ends
+
+```
+codeView.setIndentationEnds(indentationEnds);
+```
+
+Change the matching highlighter color
+
+```
+codeView.setMatchingHighlightColor(color);
+```
+
+Get and save all the tokens that matching regex
+
+```
+List<Token> tokens = codeView.findMatches(regex);
+```
+
+Find and highlight the next matching token, returns null if not found
+
+```
+Token token = codeView.findNextMatch();
+```
+
+Find and highlight the previous matching token, returns null if not found
+
+```
+Token token = codeView.findPrevMatch();
+```
+
+Clear all matching highlighted token
+
+```
+codeView.clearMatches();
+```
+
+Replace the first string that matching regex with other string
+
+```
+codeView.replaceFirstMatch(regex, replacement);
+```
+
+Replace all strings that matching regex with other string
+
+```
+codeView.replaceAllMatches(regex, replacement);
+```
+
 #### For real examples on how to use CodeView check the example app
