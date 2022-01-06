@@ -3,6 +3,7 @@ package com.amrdeveloper.codeviewlibrary;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import com.amrdeveloper.codeview.CodeView;
 import com.amrdeveloper.codeviewlibrary.syntax.Language;
 import com.amrdeveloper.codeviewlibrary.syntax.SyntaxManager;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,12 +32,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mCodeView = findViewById(R.id.codeView);
-
+        configCodeView();
         configLanguageAutoComplete();
 
         //Config the default theme
         SyntaxManager.applyMonokaiTheme(this, mCodeView, mCurrentLanguage);
+    }
+
+    private void configCodeView() {
+        mCodeView = findViewById(R.id.codeView);
+
+        mCodeView.setEnableLineNumber(true);
+        mCodeView.setLineNumberTextColor(Color.GRAY);
+        mCodeView.setLineNumberTextSize(25f);
+
+        mCodeView.setTabLength(4);
+        mCodeView.setEnableAutoIndentation(true);
+
+        Set<Character> indentationStart = new HashSet<>();
+        indentationStart.add('{');
+        mCodeView.setIndentationStarts(indentationStart);
+
+        Set<Character> indentationEnds = new HashSet<>();
+        indentationEnds.add('}');
+        mCodeView.setIndentationEnds(indentationEnds);
     }
 
     private void configLanguageAutoComplete() {
