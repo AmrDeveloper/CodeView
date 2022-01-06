@@ -23,11 +23,11 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -35,7 +35,8 @@ import java.util.regex.Pattern;
 
 public class CodeView extends AppCompatMultiAutoCompleteTextView {
 
-    private int tabWidth;
+    private int tabWidth = 0;
+    private int tabLength = 0;
     private int tabWidthInCharacters;
     private int mUpdateDelayTime = 500;
 
@@ -49,6 +50,11 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     private Paint lineNumberPaint;
     private boolean enableLineNumber = false;
 
+    private int currentIndentation = 0;
+    private boolean enableAutoIndentation = false;
+    private final Set<Character> indentationStarts = new HashSet<>();
+    private final Set<Character> indentationEnds = new HashSet<>();
+
     private final Handler mUpdateHandler = new Handler();
     private MultiAutoCompleteTextView.Tokenizer mAutoCompleteTokenizer;
 
@@ -57,8 +63,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
 
     private final SortedMap<Integer, Integer> mErrorHashSet = new TreeMap<>();
     private final Map<Pattern, Integer> mSyntaxPatternMap = new HashMap<>();
-    private List<Character> mIndentCharacterList = Arrays.asList('{', '+', '-', '*', '/', '=');
-    
+
     public CodeView(Context context) {
         super(context);
         initEditorView();
@@ -75,40 +80,18 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     }
 
     private void initEditorView() {
-        if(mAutoCompleteTokenizer == null) {
+        if(mAutoCompleteTokenizer == null)
             mAutoCompleteTokenizer = new KeywordTokenizer();
-        }
 
         setTokenizer(mAutoCompleteTokenizer);
         setHorizontallyScrolling(true);
-
-        setFilters(new InputFilter[]{
-                new InputFilter() {
-                    @Override
-                    public CharSequence filter(CharSequence source, int start, int end,
-                                               Spanned dest, int dstart, int dend) {
-                        if (modified &&
-                                end - start == 1 &&
-                                start < source.length() &&
-                                dstart < dest.length()) {
-                            char c = source.charAt(start);
-
-                            if (c == '\n') {
-                                return autoIndent(source, dest, dstart, dend);
-                            }
-                        }
-                        return source;
-                    }
-                }
-        });
-
+        setFilters(new InputFilter[]{mInputFilter});
         addTextChangedListener(mEditorTextWatcher);
 
         lineNumberRect = new Rect();
         lineNumberPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         lineNumberPaint.setStyle(Paint.Style.FILL);
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -129,62 +112,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
             setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
         }
         super.onDraw(canvas);
-    }
-
-    private CharSequence autoIndent(CharSequence source, Spanned dest, int dstart, int dend) {
-        String indent = "";
-        int istart = dstart - 1;
-
-        boolean dataBefore = false;
-        int pt = 0;
-
-        for (; istart > -1; --istart) {
-            char c = dest.charAt(istart);
-
-            if (c == '\n') break;
-
-            if (c != ' ' && c != '\t') {
-                if (!dataBefore) {
-                    if(mIndentCharacterList.contains(c)) --pt;
-                    dataBefore = true;
-                }
-
-                if (c == '(') {
-                    --pt;
-                } else if (c == ')') {
-                    ++pt;
-                }
-            }
-        }
-
-        if (istart > -1) {
-            char charAtCursor = dest.charAt(dstart);
-            int iend;
-
-            for (iend = ++istart; iend < dend; ++iend) {
-                char c = dest.charAt(iend);
-
-                if (charAtCursor != '\n' &&
-                        c == '/' &&
-                        iend + 1 < dend &&
-                        dest.charAt(iend) == c) {
-                    iend += 2;
-                    break;
-                }
-
-                if (c != ' ' && c != '\t') {
-                    break;
-                }
-            }
-
-            indent += dest.subSequence(istart, iend);
-        }
-
-        if (pt < 0) {
-            indent += "\t";
-        }
-
-        return source + indent;
     }
 
     private void highlightSyntax(Editable editable) {
@@ -228,7 +155,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
 
     private Editable highlight(Editable editable) {
         if(editable.length() == 0) return editable;
-
         try {
             clearSpans(editable);
             highlightErrorLines(editable);
@@ -256,6 +182,10 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         modified = false;
         setText(highlight(new SpannableStringBuilder(text)));
         modified = true;
+    }
+
+    public void setTabLength(int length) {
+        tabLength = length;
     }
 
     public void setTabWidth(int characters) {
@@ -318,16 +248,18 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
         mSyntaxPatternMap.clear();
     }
 
-    public void setAutoIndentCharacterList(List<Character> characterList) {
-        mIndentCharacterList = characterList;
+    public void setEnableAutoIndentation(boolean enableAutoIndentation) {
+        this.enableAutoIndentation = enableAutoIndentation;
     }
 
-    public void clearAutoIndentCharacterList() {
-        mIndentCharacterList.clear();
+    public void setIndentationStarts(Set<Character> characters) {
+        indentationStarts.clear();
+        indentationStarts.addAll(characters);
     }
 
-    public List<Character> getAutoIndentCharacterList() {
-        return mIndentCharacterList;
+    public void setIndentationEnds(Set<Character> characters) {
+        indentationEnds.clear();
+        indentationEnds.addAll(characters);
     }
 
     public void addErrorLine(int lineNum, int color) {
@@ -454,6 +386,13 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
             }
 
             if (mRemoveErrorsWhenTextChanged) removeAllErrorLines();
+
+            if (enableAutoIndentation && count == 1) {
+                if (indentationStarts.contains(charSequence.charAt(start)))
+                    currentIndentation += tabLength;
+                else if (indentationEnds.contains(charSequence.charAt(start)))
+                    currentIndentation -= tabLength;
+            }
         }
 
         @Override
@@ -474,26 +413,59 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView {
     private final class TabWidthSpan extends ReplacementSpan {
 
         @Override
-        public int getSize(
-                @NonNull Paint paint,
-                CharSequence text,
-                int start,
-                int end,
-                Paint.FontMetricsInt fm) {
+        public int getSize(@NonNull Paint paint, CharSequence text,
+                           int start, int end, Paint.FontMetricsInt fm) {
             return tabWidth;
         }
 
         @Override
-        public void draw(
-                @NonNull Canvas canvas,
-                CharSequence text,
-                int start,
-                int end,
-                float x,
-                int top,
-                int y,
-                int bottom,
-                @NonNull Paint paint) {
+        public void draw(@NonNull Canvas canvas, CharSequence text,
+                         int start, int end, float x,
+                         int top, int y, int bottom, @NonNull Paint paint) {
         }
+    }
+
+    private final InputFilter mInputFilter = new InputFilter() {
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dStart, int dEnd) {
+            if (modified && enableAutoIndentation && start < source.length()) {
+                boolean isInsertedAtEnd = dest.length() == dEnd;
+                if (source.charAt(start) == '\n') {
+                    int indentation = isInsertedAtEnd
+                            ? currentIndentation
+                            : calculateSourceIndentation(dest.subSequence(0, dStart));
+                    return applyIndentation(source, indentation);
+                }
+            }
+            return source;
+        }
+    };
+
+    private CharSequence applyIndentation(CharSequence source, int indentation) {
+        StringBuilder sourceCode = new StringBuilder();
+        sourceCode.append(source);
+        for (int i = 0; i < indentation; i++) {
+            sourceCode.append(" ");
+        }
+        return sourceCode.toString();
+    }
+
+    private int calculateSourceIndentation(CharSequence source) {
+        int indentation = 0;
+        String[] lines = source.toString().split("\n");
+        for (String line : lines) {
+            indentation += calculateExtraIndentation(line);
+        }
+        return indentation;
+    }
+
+    private int calculateExtraIndentation(String line) {
+        if (line.isEmpty()) return 0;
+        char firstChar = line.charAt(line.length() - 1);
+        if (indentationStarts.contains(firstChar)) return tabLength;
+        else if (indentationEnds.contains(firstChar)) return -tabLength;
+        return 0;
     }
 }
