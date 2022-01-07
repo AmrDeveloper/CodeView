@@ -30,6 +30,9 @@ and CodeView has AutoComplete and you can customize it with different keywords a
   - Can change highlighter update delay time
   - Support Code snippets and change it in the runtime
   - Support optional Line Number with customization
+  - Support Auto indentation with customization
+  - Support highlighting matching tokens
+  - Support replace first and replace all matching tokens
 
 ##### If you use CodeView in an interesting project, I would like to know
 
