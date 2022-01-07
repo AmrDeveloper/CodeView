@@ -38,7 +38,7 @@ and CodeView has AutoComplete and you can customize it with different keywords a
 
 ```gradle
 dependencies { 
-    implementation 'io.github.amrdeveloper:codeview:1.1.1'
+    implementation 'io.github.amrdeveloper:codeview:1.2.0'
 }
 ```
 
@@ -58,7 +58,7 @@ dependencies {
   ##### Add the dependency
   ````gradle
   dependencies { 
-      implementation 'com.github.AmrDeveloper:CodeView:1.1.1'
+      implementation 'com.github.AmrDeveloper:CodeView:1.2.0'
   }
   ````
 </details>

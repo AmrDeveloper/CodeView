@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.2.0 *(2022-01-07)*
+-----------------------------
+
+* Improve Auto indenting implementation and make it more customizable
+* Add support for find and replacement features and highlight match tokens
 
 Version 1.1.1 *(2021-11-22)*
 -----------------------------
