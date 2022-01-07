@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 1.2.0 *(2022-01-07)*
+Version 1.2.1 *(2022-01-07)*
 -----------------------------
 
 * Improve Auto indenting implementation and make it more customizable
