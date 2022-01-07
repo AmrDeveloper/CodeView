@@ -17,9 +17,9 @@ and CodeView has AutoComplete and you can customize it with different keywords a
   <img src="media/java_demo.gif" alt="animated" width="23%"/>
   <img src="media/golang_demo.gif" alt="animated" width="23%"/>
   <img src="media/snippets_demo.gif" alt="animated" width="23%"/>
-  <img src="media/snippets_demo.gif" alt="animated" width="242" height="446"/>
-  <img src="media/audoindent_demo.gif" alt="animated" width="242" height="446" />
-  <img src="media/find_replace_demo.gif" alt="animated" width="242" height="446" />
+  <img src="media/snippets_demo.gif" alt="animated" width="23%" height="446"/>
+  <img src="media/audoindent_demo.gif" alt="animated" width="23%" height="446" />
+  <img src="media/find_replace_demo.gif" alt="animated" width="23%" height="446" />
 </p>
 
 - Main Features
