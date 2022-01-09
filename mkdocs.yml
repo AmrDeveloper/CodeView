@@ -1,0 +1,75 @@
+site_name: CodeView
+site_url: https://amrdeveloper.github.io/codeview
+site_description: Android Library to make it easy to highlight your data with alot of customization
+site_author: AmrDeveloper
+
+copyright: Copyright &copy; 2022 Amr Heshan
+
+repo_name: AmrDeveloper/CodeView
+repo_url: https://github.com/amrdeveloper/codeview
+edit_uri: blob/master/docs/
+
+theme:
+  logo: assets/cv-logo.png
+  favicon: assets/cv-logo.png
+  name: material
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  font:
+    text: Roboto
+  palette: 
+    - scheme: default
+      primary: deep purple
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode      
+  features:
+    - header.autohide
+    - navigation.instant
+    - navigation.tracking
+    - navigation.indexes
+    - content.code.annotate
+    - navigation.sections
+
+nav:
+  - Home: index.md
+  - Install: install.md
+  - Add to XML: add-to-xml.md
+  - Highlight: highlight.md
+  - Auto Complete: auto-complete.md
+  - Snippets: snippets.md
+  - Auto Indenting: auto-indenting.md
+  - Find and Replace: find-and-replace.md
+  - Line number: line-number.md
+  - Contribution:
+    - Documentation: contribution/documentation.md
+    - Suggest Fetaure: contribution/suggestion.md
+    - Report Issue: contribution/report.md
+    
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/amrdeveloper
+      name: AmrDeveloper on Github
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/AmrDeveloper
+      name: AmrDeveloper on Twitter
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/amrdeveloper
+      name: AmrDeveloper on Linkedin
+    - icon: fontawesome/brands/medium
+      link: https://amrdeveloper.medium.com
+      name: AmrDeveloper on Medium
+      
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js
+  - config.js
+  
