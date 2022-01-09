@@ -1,10 +1,15 @@
 # CodeView
+<p align="center">
+  <img src="media/cv-logo.png" width="128px" height="128px"/>
+</p>
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/343df315aa3b40e09e6e98cf32ff8468)](https://app.codacy.com/gh/AmrDeveloper/CodeView?utm_source=github.com&utm_medium=referral&utm_content=AmrDeveloper/CodeView&utm_campaign=Badge_Grade_Settings)
 [![CodeFactor](https://www.codefactor.io/repository/github/amrdeveloper/codeview/badge)](https://www.codefactor.io/repository/github/amrdeveloper/codeview)
 ![Build](https://github.com/amrdeveloper/codeview/actions/workflows/build.yml/badge.svg)
 [![Min API Level](https://img.shields.io/badge/API-%2B14-brightgreen)]()
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.amrdeveloper/codeview?color=green)
 [![Jitpack Version](https://jitpack.io/v/AmrDeveloper/CodeView.svg)](https://jitpack.io/#AmrDeveloper/CodeView)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-CodeView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8179)
 
 Android Library to make it easy to create your CodeEditor or IDE for any programming language 
 even for your programming language, just config the view with your language keywords and other attributes
@@ -19,248 +24,56 @@ and CodeView has AutoComplete and you can customize it with different keywords a
 </p>
 
 - Main Features
-  - Can support any programming language you want
-  - Can support AutoComplete and customize it with different tokenizers and design
-  - Can support any theme you want and change it in the runtime
-  - Syntax Highlighter depend on your patterns so you can support any features like TODO comment
-  - Can support errors and warns with different colors and remove them in the runtime
-  - Can change highlighter update delay time
-  - Support Code snippets and change it in the runtime
-  - Support optional Line Number with customization
-  - Support Auto indentation with customization
-  - Support highlighting matching tokens
-  - Support replace first and replace all matching tokens
+  - Can support any programming language you want.
+  - Can support AutoComplete and customize it with different tokenizers and design.
+  - Can support any theme you want and change it in the runtime.
+  - Syntax Highlighter depend on your patterns so you can support any features like TODO comment.
+  - Can support errors and warns with different colors and remove them in the runtime.
+  - Can change highlighter update delay time.
+  - Support Code snippets and change it in the runtime.
+  - Support optional Line Number with customization.
+  - Support Auto indentation with customization.
+  - Support highlighting matching tokens.
+  - Support replace first and replace all matching tokens.
 
-##### If you use CodeView in an interesting project, I would like to know
+- Documentations:
+  - [Full Documentation](https://amrdeveloper.github.io/CodeView/)
+  - [Install Documentation](docs/install.md)
+  - [Add to XML Documentation](docs/add-to-xml.md)
+  - [Highlight Documentation](docs/highlight.md)
+  - [Auto Complete Documentation](docs/auto-complete.md)
+  - [Snippets Documentation](docs/snippets.md)
+  - [Auto Indenting Documentation](docs/auto-indenting.md)
+  - [Find and Replace Documentation](docs/find-and-replace.md)
+  - [Line Number Documentation](docs/line-number.md)
 
-### Add CodeView to your project 
-#### Add CodeView from Maven Central
+- Articles
+  - [Android CodeView an Easy way to create Code Editor app](https://itnext.io/android-codeview-an-easy-way-to-create-code-editor-app-5d67c3534f84)
+  - [Android CodeView the easiest way to highlight text](https://itnext.io/android-codeview-the-easiest-way-to-highlight-patterns-53702e0e2164)
+  - [Android CodeView Highlight search result in List Items](https://itnext.io/android-codeview-highlight-search-result-in-list-items-b7e4c9fb57d8)
+  - [Android CodeView Create a code editor with Snippets](https://itnext.io/android-codeview-create-a-code-editor-with-snippets-6733094161e4)
+  - [Android CodeView Auto Indentation, Find and replace](https://itnext.io/android-codeview-auto-indentation-find-and-replace-3bc91994e214)
 
-```gradle
-dependencies { 
-    implementation 'io.github.amrdeveloper:codeview:1.2.1'
-}
-```
-
-<details>
-  <summary>Or Add CodeView from Jitpack.IO</summary>
-  
-  ##### Add it to your root build.gradle
-  ````gradle
-  allprojects {
-      repositories {
-          ...
-          maven { url 'https://jitpack.io' }
-      }
-  }
-  ````
-
-  ##### Add the dependency
-  ````gradle
-  dependencies { 
-      implementation 'com.github.AmrDeveloper:CodeView:1.2.1'
-  }
-  ````
-</details>
-
-#### Documentation
-CodeView is based on AppCompatMultiAutoCompleteTextView
-
-Add CodeView on your xml 
-
-```xml
-<com.amrdeveloper.codeview.CodeView
-    android:id="@+id/codeView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/darkGrey"
-    android:dropDownWidth="@dimen/dimen150dp"
-    android:dropDownHorizontalOffset="0dp"
-    android:dropDownSelector="@color/darkGrey"
-    android:gravity="top|start" />
-```
-
-Initialize CodeView
-
-```java
-CodeView codeView = findViewById(R.id.codeview);
-```
-
-Clear all patterns from CodeView
-
-```java
-codeView.resetSyntaxPatternList();
-```
-
-Add Patterns for your language, you can add any number of patterns
-
-```java
-codeView.addSyntaxPattern(pattern, Color);
-```
-
-Or add all patterns as an Map Object
-
-```java
-codeView.setSyntaxPatternsMap(syntaxPatterns);
-```
-
-Highlight the text depend on the new patterns
-  
-```java
-codeView.reHighlightSyntax();
-```
-
-Add error line with dynamic color to support error, hint, warn...etc
-
-```java
-codeView.addErrorLine(lineNumber, color);
-```
-
-Clear all error lines
-
-```java
-codeView.removeAllErrorLines();
-```
-
-Highlight the errors depend on the error lines
-
-```java
-codeView.reHighlightErrors();
-```
-  
-Add Custom AutoComplete Adapter
-
-```java
-//Your language keywords
-String[] languageKeywords = .....
-//List item custom layout 
-int layoutId = .....
-//TextView id on your custom layout to put suggestion on it
-int viewId = .....
-//Create ArrayAdapter object that contain all information
-ArrayAdapter<String> adapter = new ArrayAdapter<>(context, layoutId, viewId, languageKeywords);
-//Set the adapter on CodeView object
-codeView.setAdapter(adapter);
-```
-
-Add Custom AutoComplete Adapter that support keywords and Snippets
-
-```java
-List<Code> codes = new ArrayList<>();
-codes.add(new Snippet(..., ..., ...));
-codes.add(new Keyword(..., ..., ...));
-
-//Your language keywords
-String[] languageKeywords = .....
-//List item custom layout
-int layoutId = .....
-//TextView id on your custom layout to put suggestion on it
-int viewId = .....
-
-CodeViewAdapter codeAdapter = new CodeViewAdapter(context, layoutId, viewId, codes);
-codeView.setAdapter(codeAdapter);
-```
-
-Add Custom AutoComplete Tokenizer
-    
-```java
- codeView.setAutoCompleteTokenizer(tokenizer);
-```
-
-Set highlighter update delay
-
-```java
-codeView.setUpdateDelayTime();
-```
-
-Enable/Disable highlight the code while the text is changing
-
-```java
-codeView.setHighlightWhileTextChanging(enableHighlighter);
-```
-
-Enable/Disable line number
-
-```java
-codeView.setEnableLineNumber(enableLineNumber);
-```
-
-Set line number text color
-
-```java
-codeView.setLineNumberTextColor(Color.GREY);
-```
-
-Set line number text size
-
-```java
-codeView.setLineNumberTextSize(size);
-```
-
-Set Tab length
+### License
 
 ```
-codeView.setTabLength(4);
-```
+Copyright (c) 2020 - Present Amr Hesham
 
-Enable/Disable Auto Indentation
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-```
-codeView.setEnableAutoIndentation(enableIndentation);
-```
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-Set Indentations Starts
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
-codeView.setIndentationStarts(indentationStart);
-```
-
-Set Indentations Ends
-
-```
-codeView.setIndentationEnds(indentationEnds);
-```
-
-Change the matching highlighter color
-
-```
-codeView.setMatchingHighlightColor(color);
-```
-
-Get and save all the tokens that matching regex
-
-```
-List<Token> tokens = codeView.findMatches(regex);
-```
-
-Find and highlight the next matching token, returns null if not found
-
-```
-Token token = codeView.findNextMatch();
-```
-
-Find and highlight the previous matching token, returns null if not found
-
-```
-Token token = codeView.findPrevMatch();
-```
-
-Clear all matching highlighted token
-
-```
-codeView.clearMatches();
-```
-
-Replace the first string that matching regex with other string
-
-```
-codeView.replaceFirstMatch(regex, replacement);
-```
-
-Replace all strings that matching regex with other string
-
-```
-codeView.replaceAllMatches(regex, replacement);
-```
-
-#### For real examples on how to use CodeView check the example app
