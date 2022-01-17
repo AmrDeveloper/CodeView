@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 AmrDeveloper (Amr Hesham)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.amrdeveloper.codeview;
 
 import android.content.Context;
@@ -37,6 +61,10 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * CodeView is a CustomView to provide a lot of features that you need to highlights
+ * and creating an editor for your custom programming language or data format
+ */
 public class CodeView extends AppCompatMultiAutoCompleteTextView implements Findable, Replaceable {
 
     private int tabWidth = 0;
@@ -247,6 +275,10 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         modified = true;
     }
 
+    /**
+     * Replace the current text with new highlighted text
+     * @param text The new Text
+     */
     public void setTextHighlighted(CharSequence text) {
         if (text == null || text.length() == 0) return;
 
@@ -259,10 +291,18 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         modified = true;
     }
 
+    /**
+     * Modify the tab length to use it in auto indenting feature
+     * @param length The new tab length value
+     */
     public void setTabLength(int length) {
         tabLength = length;
     }
 
+    /**
+     * Modify the current tab with
+     * @param characters to use it to calculate the tab width
+     */
     public void setTabWidth(int characters) {
         if (tabWidthInCharacters == characters) return;
         tabWidthInCharacters = characters;
@@ -284,6 +324,9 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
             editable.removeSpan(backgroundSpans[i]);
     }
 
+    /**
+     * Stop the highlighter task
+     */
     public void cancelHighlighterRender() {
         mUpdateHandler.removeCallbacks(mUpdateRunnable);
     }
@@ -302,114 +345,217 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         }
     }
 
+    /**
+     * Setup the syntax of your data as a map of patterns with their colors
+     * @param syntaxPatterns Map of Patterns and Colors
+     */
     public void setSyntaxPatternsMap(Map<Pattern, Integer> syntaxPatterns) {
         if(!mSyntaxPatternMap.isEmpty()) mSyntaxPatternMap.clear();
         mSyntaxPatternMap.putAll(syntaxPatterns);
     }
 
+    /**
+     * Add Single syntax as a Pattern with one Color
+     * @param pattern Syntax feature pattern
+     * @param Color Colors used when highlighting the pattern
+     */
     public void addSyntaxPattern(Pattern pattern, @ColorInt int Color) {
         mSyntaxPatternMap.put(pattern, Color);
     }
 
+    /**
+     * Remove one pattern from the Syntax patterns
+     * @param pattern Pattern object to remove it
+     */
     public void removeSyntaxPattern(Pattern pattern) {
         mSyntaxPatternMap.remove(pattern);
     }
 
+    /**
+     * @return The current number of patterns in the syntax map
+     */
     public int getSyntaxPatternsSize() {
         return mSyntaxPatternMap.size();
     }
 
+    /**
+     * Remove all syntax patterns
+     */
     public void resetSyntaxPatternList() {
         mSyntaxPatternMap.clear();
     }
 
+    /**
+     * Enable or disable auto indenting feature
+     * @param enableAutoIndentation Flag to enable or disable auto indenting
+     */
     public void setEnableAutoIndentation(boolean enableAutoIndentation) {
         this.enableAutoIndentation = enableAutoIndentation;
     }
 
+    /**
+     * Set the indenting starts set of characters
+     * @param characters Set of characters to use them as indenting starts
+     * @since 1.2.1
+     */
     public void setIndentationStarts(Set<Character> characters) {
         indentationStarts.clear();
         indentationStarts.addAll(characters);
     }
 
+    /**
+     * Set the indenting ends set of characters
+     * @param characters Set of characters to use them as indenting ends
+     * @since 1.2.1
+     */
     public void setIndentationEnds(Set<Character> characters) {
         indentationEnds.clear();
         indentationEnds.addAll(characters);
     }
 
+    /**
+     * Add New Error to the current set of errors to highlight it
+     * @param lineNum The error line number
+     * @param color The color to highlight this error
+     */
     public void addErrorLine(int lineNum, int color) {
         mErrorHashSet.put(lineNum, color);
         hasErrors = true;
     }
 
+    /**
+     * Remove one error by the line number from the error set
+     * @param lineNum The error line number to remove it
+     */
     public void removeErrorLine(int lineNum) {
         mErrorHashSet.remove(lineNum);
         hasErrors = mErrorHashSet.size() > 0;
     }
 
+    /**
+     * Remove all the errors from the errors set and change {@link #hasErrors} to false
+     */
     public void removeAllErrorLines() {
         mErrorHashSet.clear();
         hasErrors = false;
     }
 
+    /**
+     * @return The current number of errors in the Errors set
+     */
     public int getErrorsSize() {
         return mErrorHashSet.size();
     }
 
+    /**
+     * @return The current text but without any Trailing Space
+     */
     public String getTextWithoutTrailingSpace() {
         return PATTERN_TRAILING_WHITE_SPACE
                 .matcher(getText())
                 .replaceAll("");
     }
 
+    /**
+     * Replace the current Auto Complete default tokenizer by custom one
+     * @param tokenizer The new custom Tokenizer
+     */
     public void setAutoCompleteTokenizer(MultiAutoCompleteTextView.Tokenizer tokenizer) {
         mAutoCompleteTokenizer = tokenizer;
     }
 
+    /**
+     * Enable or disable remove all the current errors when text is changed
+     * @param removeErrors True to enable remove current error
+     */
     public void setRemoveErrorsWhenTextChanged(boolean removeErrors) {
         mRemoveErrorsWhenTextChanged = removeErrors;
     }
 
+    /**
+     * Re Highlight the syntax patterns
+     */
     public void reHighlightSyntax() {
         highlightSyntax(getEditableText());
     }
 
+    /**
+     * Re Highlight the current errors
+     */
     public void reHighlightErrors() {
         highlightErrorLines(getEditableText());
     }
 
+    /**
+     * @return {@code true} if the errors lists is not empty
+     */
     public boolean isHasError() {
         return hasErrors;
     }
 
+    /**
+     * Modify the highlighting delay time
+     * @param time The new delay time
+     */
     public void setUpdateDelayTime(int time) {
         mUpdateDelayTime = time;
     }
 
+    /**
+     * @return The current highlighting delay time
+     */
     public int getUpdateDelayTime() {
         return mUpdateDelayTime;
     }
 
+    /**
+     * Enable or disable highlighting while text is changing
+     * @param updateWhileTextChanging True to enable highlighting while text is changing
+     */
     public void setHighlightWhileTextChanging(boolean updateWhileTextChanging) {
         this.highlightWhileTextChanging = updateWhileTextChanging;
     }
 
+    /**
+     * Enable or disable the line number feature
+     * @param enableLineNumber Flag to enable or disable line number
+     * @since 1.1.0
+     */
     public void setEnableLineNumber(boolean enableLineNumber) {
         this.enableLineNumber = enableLineNumber;
     }
 
+    /**
+     * @return {@code true} if the line number is enabled
+     * @since 1.1.0
+     */
     public boolean isLineNumberEnabled() {
         return enableLineNumber;
     }
 
+    /**
+     * Modify the line number text color
+     * @param color The new color value
+     * @since 1.1.0
+     */
     public void setLineNumberTextColor(int color) {
         lineNumberPaint.setColor(color);
     }
 
+    /**
+     * Modify the line number text size
+     * @param size The new size value
+     * @since 1.1.0
+     */
     public void setLineNumberTextSize(float size) {
         lineNumberPaint.setTextSize(size);
     }
 
+    /**
+     * Modify the matches tokens highlighting color
+     * @param color The new color value
+     * @since 1.2.1
+     */
     public void setMatchingHighlightColor(int color) {
         matchingColor = color;
     }
