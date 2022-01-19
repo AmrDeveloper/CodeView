@@ -577,6 +577,10 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     public boolean canRedo(){
     return mUndoRedoManager.canRedo();
     }
+    
+    public void clearUndoRedoHistory(){
+    mUndoRedoManager.clearHistory();
+    }
 
     @Override
     public void showDropDown() {
