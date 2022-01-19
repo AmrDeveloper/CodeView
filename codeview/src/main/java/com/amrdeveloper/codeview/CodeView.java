@@ -101,6 +101,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     private final SortedMap<Integer, Integer> mErrorHashSet = new TreeMap<>();
     private final Map<Pattern, Integer> mSyntaxPatternMap = new HashMap<>();
 
+    private UndoRedoManager mUndoRedoManager;
     public CodeView(Context context) {
         super(context);
         initEditorView();
@@ -121,6 +122,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
             mAutoCompleteTokenizer = new KeywordTokenizer();
 
         setTokenizer(mAutoCompleteTokenizer);
+        mUndoRedoManager = new UndoRedoManager(this);
         setHorizontallyScrolling(true);
         setFilters(new InputFilter[]{mInputFilter});
         addTextChangedListener(mEditorTextWatcher);
@@ -558,6 +560,22 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
      */
     public void setMatchingHighlightColor(int color) {
         matchingColor = color;
+    }
+    
+    public void undo(){
+    mUndoRedoManager.undo();
+    }
+    
+    public void redo(){
+    mUndoRedoManager.undo();
+    }
+    
+    public boolean canUndo(){
+    return mUndoRedoManager.canUndo();
+    }
+    
+    public boolean canRedo(){
+    return mUndoRedoManager.canRedo();
     }
 
     @Override
