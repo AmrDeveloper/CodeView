@@ -50,4 +50,9 @@
         android:icon="@drawable/ic_find_in_page"
         android:orderInCategory="3"
         android:title="@string/find_and_replace" />
+
+    <item
+        android:id="@+id/clearText"
+        android:orderInCategory="4"
+        android:title="@string/clear_text" />
 </menu>

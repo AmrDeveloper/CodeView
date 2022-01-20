@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         if (menuGroupId == R.id.group_languages) changeTheEditorLanguage(menuItemId);
         else if (menuGroupId == R.id.group_themes) changeTheEditorTheme(menuItemId);
         else if (menuItemId == R.id.findMenu) launchEditorButtonSheet();
+        else if (menuItemId == R.id.clearText) codeView.setText("");
 
         return super.onOptionsItemSelected(item);
     }

@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">CodeView</string>
-    <string name="change_theme">Change Theme</string>
 
-    <!-- Bottom Sheet Dialog hints -->
+    <!-- Actions -->
     <string name="find_and_replace">Find And Replace</string>
     <string name="search_keyword">Search keyword</string>
     <string name="find_previous_match">Find previous Match</string>
     <string name="find_next_match">Find Next Match</string>
     <string name="replacement">Replacement</string>
     <string name="replace_all">Replace all</string>
+    <string name="clear_text">Clear Text</string>
 
     <!-- Programming Languages -->
     <string name="languages">Languages</string>
