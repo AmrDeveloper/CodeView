@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/languages"
+        android:orderInCategory="1"
+        android:title="@string/languages">
+        <menu>
+            <group android:id="@+id/group_languages">
+                <item
+                    android:id="@+id/language_java"
+                    android:icon="@drawable/ic_java"
+                    android:title="@string/java" />
+                <item
+                    android:id="@+id/language_python"
+                    android:icon="@drawable/ic_python"
+                    android:title="@string/python" />
+                <item
+                    android:id="@+id/language_go"
+                    android:icon="@drawable/ic_go"
+                    android:title="@string/go" />
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/themes"
+        android:orderInCategory="2"
+        android:title="@string/themes">
+        <menu>
+            <group android:id="@+id/group_themes">
+                <item
+                    android:id="@+id/theme_monokia"
+                    android:title="@string/monokia" />
+                <item
+                    android:id="@+id/theme_noctics"
+                    android:title="@string/noctics_white" />
+                <item
+                    android:id="@+id/theme_five_color"
+                    android:title="@string/five_color_dark" />
+                <item
+                    android:id="@+id/theme_orange_box"
+                    android:title="@string/orange_box" />
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/findMenu"
+        android:icon="@drawable/ic_find_in_page"
+        android:orderInCategory="3"
+        android:title="@string/find_and_replace" />
+</menu>

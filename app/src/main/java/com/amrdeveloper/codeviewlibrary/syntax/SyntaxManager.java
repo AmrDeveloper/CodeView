@@ -6,7 +6,32 @@ import com.amrdeveloper.codeview.CodeView;
 
 public class SyntaxManager {
 
-    public static void applyMonokaiTheme(Context context, CodeView codeView, Language language) {
+    private final Context context;
+    private final CodeView codeView;
+
+    public SyntaxManager(Context context, CodeView codeView) {
+        this.context = context;
+        this.codeView = codeView;
+    }
+
+    public void applyTheme(Language language, Theme theme) {
+        switch (theme) {
+            case MONOKAI:
+                applyMonokaiTheme(language);
+                break;
+            case NOCTIS_WHITE:
+                applyNoctisWhiteTheme(language);
+                break;
+            case FIVE_COLOR:
+                applyFiveColorsDarkTheme(language);
+                break;
+            case ORANGE_BOX:
+                applyOrangeBoxTheme(language);
+                break;
+        }
+    }
+
+    private void applyMonokaiTheme(Language language) {
         switch (language) {
             case JAVA:
                 JavaSyntaxUtils.applyMonokaiTheme(context, codeView);
@@ -20,7 +45,7 @@ public class SyntaxManager {
         }
     }
 
-    public static void applyNoctisWhiteTheme(Context context, CodeView codeView, Language language) {
+    private void applyNoctisWhiteTheme(Language language) {
         switch (language) {
             case JAVA:
                 JavaSyntaxUtils.applyNoctisWhiteTheme(context, codeView);
@@ -34,7 +59,7 @@ public class SyntaxManager {
         }
     }
 
-    public static void applyFiveColorsDarkTheme(Context context, CodeView codeView, Language language) {
+    private void applyFiveColorsDarkTheme(Language language) {
         switch (language) {
             case JAVA:
                 JavaSyntaxUtils.applyFiveColorsDarkTheme(context, codeView);
@@ -48,7 +73,7 @@ public class SyntaxManager {
         }
     }
 
-    public static void applyOrangeBoxTheme(Context context, CodeView codeView, Language language) {
+    private void applyOrangeBoxTheme(Language language) {
         switch (language) {
             case JAVA:
                 JavaSyntaxUtils.applyOrangeBoxTheme(context, codeView);

@@ -14,9 +14,9 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.amrdeveloper.codeview.CodeView;
+import com.amrdeveloper.codeviewlibrary.syntax.Theme;
 import com.amrdeveloper.codeviewlibrary.syntax.Language;
 import com.amrdeveloper.codeviewlibrary.syntax.SyntaxManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -26,13 +26,11 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CodeView mCodeView;
+    private CodeView codeView;
+    private SyntaxManager syntaxManager;
 
-    //Index of next theme to load it when user click change theme
-    private int mNextThemeIndex = 2;
-
-    //To change themes easily
-    private final Language mCurrentLanguage = Language.JAVA;
+    private Language currentLanguage = Language.JAVA;
+    private Theme currentTheme = Theme.MONOKAI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,40 +38,43 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configCodeView();
-        configLanguageAutoComplete();
-
-        //Config the default theme
-        SyntaxManager.applyMonokaiTheme(this, mCodeView, mCurrentLanguage);
     }
 
     private void configCodeView() {
-        mCodeView = findViewById(R.id.codeView);
+        codeView = findViewById(R.id.codeView);
 
         // Change default font to JetBrains Mono font
         Typeface jetBrainsMono = ResourcesCompat.getFont(this, R.font.jetbrains_mono_medium);
-        mCodeView.setTypeface(jetBrainsMono);
+        codeView.setTypeface(jetBrainsMono);
 
         // Setup Line number feature
-        mCodeView.setEnableLineNumber(true);
-        mCodeView.setLineNumberTextColor(Color.GRAY);
-        mCodeView.setLineNumberTextSize(25f);
+        codeView.setEnableLineNumber(true);
+        codeView.setLineNumberTextColor(Color.GRAY);
+        codeView.setLineNumberTextSize(25f);
 
         // Setup Auto indenting feature
-        mCodeView.setTabLength(4);
-        mCodeView.setEnableAutoIndentation(true);
+        codeView.setTabLength(4);
+        codeView.setEnableAutoIndentation(true);
 
         Set<Character> indentationStart = new HashSet<>();
         indentationStart.add('{');
-        mCodeView.setIndentationStarts(indentationStart);
+        codeView.setIndentationStarts(indentationStart);
 
         Set<Character> indentationEnds = new HashSet<>();
         indentationEnds.add('}');
-        mCodeView.setIndentationEnds(indentationEnds);
+        codeView.setIndentationEnds(indentationEnds);
+
+        // Setup the language and theme with SyntaxManager helper class
+        syntaxManager = new SyntaxManager(this, codeView);
+        syntaxManager.applyTheme(currentLanguage,currentTheme);
+
+        // Setup the auto complete for the current language
+        configLanguageAutoComplete();
     }
 
     private void configLanguageAutoComplete() {
         final String[] languageKeywords;
-        switch (mCurrentLanguage) {
+        switch (currentLanguage) {
             case JAVA:
                 languageKeywords = getResources().getStringArray(R.array.java_keywords);
                 break;
@@ -85,55 +86,56 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        //Custom list item xml layout
+        // Custom list item xml layout
         final int layoutId = R.layout.suggestion_list_item;
 
-        //TextView id to put suggestion on it
+        // TextView id to put suggestion on it
         final int viewId = R.id.suggestItemTextView;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, layoutId, viewId, languageKeywords);
 
-        //Add Custom Adapter to the CodeView
-        mCodeView.setAdapter(adapter);
+        // Add Custom Adapter to the CodeView
+        codeView.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        final int id = item.getItemId();
-        if (id == R.id.changeMenu) changeCodeViewTheme();
-        else if (id == R.id.findMenu) launchEditorButtonSheet();
+        final int menuItemId = item.getItemId();
+        final int menuGroupId = item.getGroupId();
+
+        if (menuGroupId == R.id.group_languages) changeTheEditorLanguage(menuItemId);
+        else if (menuGroupId == R.id.group_themes) changeTheEditorTheme(menuItemId);
+        else if (menuItemId == R.id.findMenu) launchEditorButtonSheet();
+
         return super.onOptionsItemSelected(item);
     }
 
-    private void changeCodeViewTheme() {
-        if (mNextThemeIndex > 4) mNextThemeIndex = 1;
-        loadNextTheme();
-        mNextThemeIndex = mNextThemeIndex + 1;
-    }
+    private void changeTheEditorLanguage(int languageId) {
+        final Language oldLanguage = currentLanguage;
+        if (languageId == R.id.language_java) currentLanguage = Language.JAVA;
+        else if (languageId == R.id.language_python) currentLanguage = Language.PYTHON;
+        else if(languageId == R.id.language_go) currentLanguage = Language.GO_LANG;
 
-    private void loadNextTheme() {
-        switch (mNextThemeIndex) {
-            case 1:
-                SyntaxManager.applyMonokaiTheme(this, mCodeView, mCurrentLanguage);
-                Toast.makeText(this, "Monokai", Toast.LENGTH_SHORT).show();
-                break;
-            case 2:
-                SyntaxManager.applyNoctisWhiteTheme(this, mCodeView, mCurrentLanguage);
-                Toast.makeText(this, "Noctis White", Toast.LENGTH_SHORT).show();
-                break;
-            case 3:
-                SyntaxManager.applyFiveColorsDarkTheme(this, mCodeView, mCurrentLanguage);
-                Toast.makeText(this, "5 Colors Dark", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                SyntaxManager.applyOrangeBoxTheme(this, mCodeView, mCurrentLanguage);
-                Toast.makeText(this, "Orange Box", Toast.LENGTH_SHORT).show();
-                break;
+        if (currentLanguage != oldLanguage) {
+            syntaxManager.applyTheme(currentLanguage, currentTheme);
+            configLanguageAutoComplete();
+        }
+    }
+    
+    private void changeTheEditorTheme(int themeId) {
+        final Theme oldTheme = currentTheme;
+        if (themeId == R.id.theme_monokia) currentTheme = Theme.MONOKAI;
+        else if (themeId == R.id.theme_noctics) currentTheme = Theme.NOCTIS_WHITE;
+        else if(themeId == R.id.theme_five_color) currentTheme = Theme.FIVE_COLOR;
+        else if(themeId == R.id.theme_orange_box) currentTheme = Theme.ORANGE_BOX;
+
+        if (currentTheme != oldTheme) {
+            syntaxManager.applyTheme(currentLanguage, currentTheme);
         }
     }
 
@@ -163,26 +165,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String text = editable.toString();
-                if (text.isEmpty()) mCodeView.clearMatches();
-                mCodeView.findMatches(text);
+                if (text.isEmpty()) codeView.clearMatches();
+                codeView.findMatches(text);
             }
         });
 
         findPrevAction.setOnClickListener(v -> {
-            mCodeView.findPrevMatch();
+            codeView.findPrevMatch();
         });
 
         findNextAction.setOnClickListener(v -> {
-            mCodeView.findNextMatch();
+            codeView.findNextMatch();
         });
 
         replacementAction.setOnClickListener(v -> {
             String regex = searchEdit.getText().toString();
             String replacement = replacementEdit.getText().toString();
-            mCodeView.replaceAllMatches(regex, replacement);
+            codeView.replaceAllMatches(regex, replacement);
         });
 
-        dialog.setOnDismissListener(c -> mCodeView.clearMatches());
+        dialog.setOnDismissListener(c -> codeView.clearMatches());
         dialog.show();
     }
 }

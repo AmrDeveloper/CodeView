@@ -9,4 +9,17 @@
     <string name="find_next_match">Find Next Match</string>
     <string name="replacement">Replacement</string>
     <string name="replace_all">Replace all</string>
+
+    <!-- Programming Languages -->
+    <string name="languages">Languages</string>
+    <string name="java"> Java </string>
+    <string name="python"> Python </string>
+    <string name="go"> Go </string>
+
+    <!-- Themes -->
+    <string name="themes">Themes</string>
+    <string name="monokia">Monokia</string>
+    <string name="noctics_white">Noctics White</string>
+    <string name="five_color_dark">Five Color Dark</string>
+    <string name="orange_box">Orange Box</string>
 </resources>

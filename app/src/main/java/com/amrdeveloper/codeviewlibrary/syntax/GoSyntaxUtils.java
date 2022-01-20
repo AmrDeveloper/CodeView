@@ -30,6 +30,8 @@ public class GoSyntaxUtils {
 
     public static void applyMonokaiTheme(Context context, CodeView codeView) {
         codeView.resetSyntaxPatternList();
+        codeView.resetHighlighter();
+
         //View Background
         codeView.setBackgroundColor(codeView.getResources().getColor(R.color.monokia_pro_black));
 
@@ -53,6 +55,8 @@ public class GoSyntaxUtils {
 
     public static void applyNoctisWhiteTheme(Context context, CodeView codeView) {
         codeView.resetSyntaxPatternList();
+        codeView.resetHighlighter();
+
         //View Background
         codeView.setBackgroundColor(codeView.getResources().getColor(R.color.noctis_white));
 
@@ -77,6 +81,8 @@ public class GoSyntaxUtils {
 
     public static void applyFiveColorsDarkTheme(Context context, CodeView codeView) {
         codeView.resetSyntaxPatternList();
+        codeView.resetHighlighter();
+
         //View Background
         codeView.setBackgroundColor(codeView.getResources().getColor(R.color.five_dark_black));
 
@@ -100,6 +106,8 @@ public class GoSyntaxUtils {
 
     public static void applyOrangeBoxTheme(Context context, CodeView codeView) {
         codeView.resetSyntaxPatternList();
+        codeView.resetHighlighter();
+
         //View Background
         codeView.setBackgroundColor(codeView.getResources().getColor(R.color.orange_box_black));
 
