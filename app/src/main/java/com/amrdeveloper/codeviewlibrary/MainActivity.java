@@ -2,8 +2,10 @@ package com.amrdeveloper.codeviewlibrary;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -47,10 +49,16 @@ public class MainActivity extends AppCompatActivity {
     private void configCodeView() {
         mCodeView = findViewById(R.id.codeView);
 
+        // Change default font to JetBrains Mono font
+        Typeface jetBrainsMono = ResourcesCompat.getFont(this, R.font.jetbrains_mono_medium);
+        mCodeView.setTypeface(jetBrainsMono);
+
+        // Setup Line number feature
         mCodeView.setEnableLineNumber(true);
         mCodeView.setLineNumberTextColor(Color.GRAY);
         mCodeView.setLineNumberTextSize(25f);
 
+        // Setup Auto indenting feature
         mCodeView.setTabLength(4);
         mCodeView.setEnableAutoIndentation(true);
 
