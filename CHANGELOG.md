@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 1.2.2 *(2022-01-20)*
+-----------------------------
+
+* Add the missing Javadoc comments for all the public methods
+* Improve highlightSyntax implementation
+* Add resetHighlighter method to un highlight all tokens
+* Improve the example app
+
 Version 1.2.1 *(2022-01-07)*
 -----------------------------
 
