@@ -208,10 +208,11 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     private void highlightSyntax(Editable editable) {
         if(mSyntaxPatternMap.isEmpty()) return;
 
-        for(Pattern pattern : mSyntaxPatternMap.keySet()) {
-            int color = mSyntaxPatternMap.get(pattern);
-            for (Matcher m = pattern.matcher(editable); m.find();) {
-                createForegroundColorSpan(editable, m, color);
+        Set<Map.Entry<Pattern, Integer>> syntaxSet = mSyntaxPatternMap.entrySet();
+        for (Map.Entry<Pattern, Integer> syntax : syntaxSet) {
+            Matcher matcher = syntax.getKey().matcher(editable);
+            while (matcher.find()) {
+                createForegroundColorSpan(editable, matcher, syntax.getValue());
             }
         }
     }
@@ -383,6 +384,13 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
      */
     public void resetSyntaxPatternList() {
         mSyntaxPatternMap.clear();
+    }
+
+    /**
+     * Un highlight all keywords by removing all spans
+     */
+    public void resetHighlighter() {
+        clearSpans(getText());
     }
 
     /**
