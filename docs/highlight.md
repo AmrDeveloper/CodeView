@@ -27,6 +27,12 @@ codeView.removeSyntaxPattern(pattern);
 codeView.reHighlightSyntax();
 ```
 
+### Un highlight all tokens
+
+```
+codeView.resetHighlighter();
+```
+
 ### Clear all patterns from CodeView
 
 ```
