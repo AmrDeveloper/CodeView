@@ -15,13 +15,17 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.amrdeveloper.codeview.Code;
 import com.amrdeveloper.codeview.CodeView;
+import com.amrdeveloper.codeview.Keyword;
 import com.amrdeveloper.codeviewlibrary.syntax.Theme;
 import com.amrdeveloper.codeviewlibrary.syntax.Language;
 import com.amrdeveloper.codeviewlibrary.syntax.SyntaxManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Language currentLanguage = Language.JAVA;
     private Theme currentTheme = Theme.MONOKAI;
+
+    private final boolean useModernAutoCompleteAdapter = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +92,25 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        // Custom list item xml layout
-        final int layoutId = R.layout.suggestion_list_item;
+        if (useModernAutoCompleteAdapter) {
+            final List<Code> codeList = new ArrayList<>();
+            for (String keyword : languageKeywords) {
+                codeList.add(new Keyword(keyword, keyword));
+            }
+            // Here you can add snippets to the codeList
+            CustomCodeViewAdapter adapter = new CustomCodeViewAdapter(this, codeList);
+            codeView.setAdapter(adapter);
+        } else {
+            // Custom list item xml layout
+            final int layoutId = R.layout.list_item_suggestion;
 
-        // TextView id to put suggestion on it
-        final int viewId = R.id.suggestItemTextView;
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, layoutId, viewId, languageKeywords);
+            // TextView id to put suggestion on it
+            final int viewId = R.id.suggestItemTextView;
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, layoutId, viewId, languageKeywords);
 
-        // Add Custom Adapter to the CodeView
-        codeView.setAdapter(adapter);
+            // Add Custom Adapter to the CodeView
+            codeView.setAdapter(adapter);
+        }
     }
 
     @Override

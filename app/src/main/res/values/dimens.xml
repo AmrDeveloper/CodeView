@@ -4,9 +4,13 @@
     <dimen name="dimen5dp">5dp</dimen>
     <dimen name="dimen10dp">10dp</dimen>
     <dimen name="dimen20dp">20dp</dimen>
+    <dimen name="dimen25dp">25dp</dimen>
+    <dimen name="dimen40dp">40dp</dimen>
     <dimen name="dimen45dp">45dp</dimen>
+    <dimen name="dimen50dp">50dp</dimen>
     <dimen name="dimen150dp">150dp</dimen>
 
     <!--SP-->
     <dimen name="dimen15sp">15sp</dimen>
+    <dimen name="dimen20sp">20sp</dimen>
 </resources>
