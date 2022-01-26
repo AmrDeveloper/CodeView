@@ -25,6 +25,7 @@
 package com.amrdeveloper.codeview;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -53,7 +54,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -91,6 +91,9 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     private int matchingColor = Color.YELLOW;
     private CharacterStyle currentMatchedToken;
     private final List<Token> matchedTokens = new ArrayList<>();
+
+    private int maxNumberOfSuggestions = Integer.MAX_VALUE;
+    private int autoCompleteItemHeightInDp = (int) (50 * Resources.getSystem().getDisplayMetrics().density);
 
     private final Handler mUpdateHandler = new Handler();
     private MultiAutoCompleteTextView.Tokenizer mAutoCompleteTokenizer;
@@ -571,22 +574,51 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         matchingColor = color;
     }
 
+    /**
+     * Modify the maximum number of suggestions to show, default is Integer.MAX_VALUE
+     * @param maxSuggestions the maximum number of suggestions
+     * @since 1.2.3
+     */
+    public void setMaxSuggestionsSize(int maxSuggestions) {
+        maxNumberOfSuggestions = maxSuggestions;
+    }
+
+    /**
+     * Modify the auto complete item height
+     * @param height auto complete item height in dp
+     * @since 1.2.3
+     */
+    public void setAutoCompleteItemHeightInDp(int height) {
+        autoCompleteItemHeightInDp = (int) (height * Resources.getSystem().getDisplayMetrics().density);
+    }
+
     @Override
     public void showDropDown() {
-        int[] screenPoint = new int[2];
+        final int[] screenPoint = new int[2];
         getLocationOnScreen(screenPoint);
 
         final Rect displayFrame = new Rect();
         getWindowVisibleDisplayFrame(displayFrame);
 
-        int position = getSelectionStart();
-        Layout layout = getLayout();
-        int line = layout.getLineForOffset(position);
-        int lineButton = layout.getLineBottom(line);
-        int dropDownVerticalOffset = lineButton + 140;
-        int dropDownHorizontalOffset = (int) layout.getPrimaryHorizontal(position);
-        setDropDownVerticalOffset(dropDownVerticalOffset);
-        setDropDownHorizontalOffset(dropDownHorizontalOffset);
+        final Layout layout = getLayout();
+        final int position = getSelectionStart();
+        final int line = layout.getLineForOffset(position);
+        final int lineButton = layout.getLineBottom(line);
+
+        int numberOfMatchedItems = getAdapter().getCount();
+        if (numberOfMatchedItems > maxNumberOfSuggestions) {
+            numberOfMatchedItems = maxNumberOfSuggestions;
+        }
+
+        int dropDownHeight = getDropDownHeight();
+        int modifiedDropDownHeight = numberOfMatchedItems * autoCompleteItemHeightInDp;
+        if (dropDownHeight != modifiedDropDownHeight) {
+            dropDownHeight = modifiedDropDownHeight;
+        }
+
+        setDropDownHeight(dropDownHeight);
+        setDropDownVerticalOffset(lineButton + dropDownHeight);
+        setDropDownHorizontalOffset((int) layout.getPrimaryHorizontal(position));
 
         super.showDropDown();
     }
