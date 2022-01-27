@@ -706,18 +706,12 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
 
             if (count == 1 && (enableAutoIndentation || enablePairComplete)) {
                 char currentChar = charSequence.charAt(start);
-                if (enableAutoIndentation) {
-                    if (indentationStarts.contains(currentChar))
-                        currentIndentation += tabLength;
-                    else if (indentationEnds.contains(currentChar))
-                        currentIndentation -= tabLength;
-                }
 
                 if (enablePairComplete) {
                     Character pairValue = mPairCompleteMap.get(currentChar);
                     if (pairValue != null) {
                         modified = false;
-                        append(pairValue.toString());
+                        getText().insert(getSelectionEnd(), pairValue.toString());
                         if (enableAutoIndentation) {
                             if (indentationStarts.contains(pairValue))
                                 currentIndentation += tabLength;
@@ -727,6 +721,14 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
                         modified = true;
                     }
                 }
+
+                if (enableAutoIndentation) {
+                    if (indentationStarts.contains(currentChar))
+                        currentIndentation += tabLength;
+                    else if (indentationEnds.contains(currentChar))
+                        currentIndentation -= tabLength;
+                }
+
             }
         }
 
