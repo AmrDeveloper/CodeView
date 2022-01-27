@@ -44,6 +44,8 @@ import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.ColorInt;
@@ -130,6 +132,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         setHorizontallyScrolling(true);
         setFilters(new InputFilter[]{mInputFilter});
         addTextChangedListener(mEditorTextWatcher);
+        setOnKeyListener(mOnKeyListener);
 
         lineNumberRect = new Rect();
         lineNumberPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -680,6 +683,26 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         }
     };
 
+    private final OnKeyListener mOnKeyListener = new OnKeyListener() {
+
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            if (!enableAutoIndentation) return false;
+            if (event.getAction() != KeyEvent.ACTION_DOWN)
+                return true;
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_SPACE:
+                    currentIndentation++;
+                    break;
+                case KeyEvent.KEYCODE_DEL:
+                    if (currentIndentation > 0)
+                        currentIndentation--;
+                    break;
+            }
+            return false;
+        }
+    };
+
     private final TextWatcher mEditorTextWatcher = new TextWatcher() {
 
         private int start;
@@ -707,6 +730,13 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
             if (count == 1 && (enableAutoIndentation || enablePairComplete)) {
                 char currentChar = charSequence.charAt(start);
 
+                if (enableAutoIndentation) {
+                    if (indentationStarts.contains(currentChar))
+                        currentIndentation += tabLength;
+                    else if (indentationEnds.contains(currentChar))
+                        currentIndentation -= tabLength;
+                }
+
                 if (enablePairComplete) {
                     Character pairValue = mPairCompleteMap.get(currentChar);
                     if (pairValue != null) {
@@ -721,14 +751,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
                         modified = true;
                     }
                 }
-
-                if (enableAutoIndentation) {
-                    if (indentationStarts.contains(currentChar))
-                        currentIndentation += tabLength;
-                    else if (indentationEnds.contains(currentChar))
-                        currentIndentation -= tabLength;
-                }
-
             }
         }
 
@@ -770,9 +792,15 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
             if (modified && enableAutoIndentation && start < source.length()) {
                 boolean isInsertedAtEnd = dest.length() == dEnd;
                 if (source.charAt(start) == '\n') {
-                    int indentation = isInsertedAtEnd
-                            ? currentIndentation
-                            : calculateSourceIndentation(dest.subSequence(0, dStart));
+                    char nextChar = dest.charAt(dEnd);
+                    if (isInsertedAtEnd) {
+                        return applyIndentation(source, currentIndentation);
+                    }
+
+                    int indentation = calculateSourceIndentation(dest.subSequence(0, dStart));
+                    if (indentationEnds.contains(nextChar)) {
+                        indentation -= tabLength;
+                    }
                     return applyIndentation(source, indentation);
                 }
             }
