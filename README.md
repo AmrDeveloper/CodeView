@@ -35,6 +35,7 @@ and CodeView has AutoComplete and you can customize it with different keywords a
   - Support Auto indentation with customization.
   - Support highlighting matching tokens.
   - Support replace first and replace all matching tokens.
+  - Support auto pair complete.
 
 - Documentations:
   - [Full Documentation](https://amrdeveloper.github.io/CodeView/)
@@ -42,6 +43,7 @@ and CodeView has AutoComplete and you can customize it with different keywords a
   - [Add to XML Documentation](docs/add-to-xml.md)
   - [Highlight Documentation](docs/highlight.md)
   - [Auto Complete Documentation](docs/auto-complete.md)
+  - [Pair Complete Documentation](docs/pair-complete.md)
   - [Snippets Documentation](docs/snippets.md)
   - [Auto Indenting Documentation](docs/auto-indenting.md)
   - [Find and Replace Documentation](docs/find-and-replace.md)
