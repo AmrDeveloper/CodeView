@@ -24,8 +24,10 @@ import com.amrdeveloper.codeviewlibrary.syntax.SyntaxManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,6 +75,17 @@ public class MainActivity extends AppCompatActivity {
         // Setup the language and theme with SyntaxManager helper class
         syntaxManager = new SyntaxManager(this, codeView);
         syntaxManager.applyTheme(currentLanguage,currentTheme);
+
+        // Setup auto pair complete
+        final Map<Character, Character> pairCompleteMap = new HashMap<>();
+        pairCompleteMap.put('{', '}');
+        pairCompleteMap.put('[', ']');
+        pairCompleteMap.put('(', ')');
+        pairCompleteMap.put('<', '>');
+        pairCompleteMap.put('"', '"');
+        pairCompleteMap.put('\'', '\'');
+        codeView.setPairCompleteMap(pairCompleteMap);
+        codeView.enablePairComplete(true);
 
         // Setup the auto complete for the current language
         configLanguageAutoComplete();
