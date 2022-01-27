@@ -4,7 +4,7 @@
 
 ```
 dependencies { 
-    implementation 'io.github.amrdeveloper:codeview:1.2.2'
+    implementation 'io.github.amrdeveloper:codeview:1.3.0'
 }
 ```
 
@@ -22,6 +22,6 @@ allprojects {
 Step 2: Add the dependency
 ```
 dependencies { 
-    implementation 'com.github.AmrDeveloper:CodeView:1.2.2'
+    implementation 'com.github.AmrDeveloper:CodeView:1.3.0'
 }
 ```
