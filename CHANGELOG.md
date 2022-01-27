@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+Version 1.3.0 *(2022-01-27)*
+-----------------------------
+
+* Improve drawing line number performance
+* Improve Auto Complete implementation to fix multi size drop down popup position
+* Add setMaxSuggestionsSize to limit the number of suggestions
+* Add setAutoCompleteItemHeightInDp take the auto complete list item to change the drop down final size
+* Add support for Auto Pair complete
+* Improve Auto indenting implementation and be able to support python indentation
+
 Version 1.2.2 *(2022-01-20)*
 -----------------------------
 
