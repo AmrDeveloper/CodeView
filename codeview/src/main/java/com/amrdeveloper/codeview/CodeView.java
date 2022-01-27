@@ -95,6 +95,9 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     private int maxNumberOfSuggestions = Integer.MAX_VALUE;
     private int autoCompleteItemHeightInDp = (int) (50 * Resources.getSystem().getDisplayMetrics().density);
 
+    private boolean enablePairComplete = false;
+    private final Map<Character, Character> mPairCompleteMap = new HashMap<>();
+
     private final Handler mUpdateHandler = new Handler();
     private MultiAutoCompleteTextView.Tokenizer mAutoCompleteTokenizer;
 
@@ -577,7 +580,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     /**
      * Modify the maximum number of suggestions to show, default is Integer.MAX_VALUE
      * @param maxSuggestions the maximum number of suggestions
-     * @since 1.2.3
+     * @since 1.3.0
      */
     public void setMaxSuggestionsSize(int maxSuggestions) {
         maxNumberOfSuggestions = maxSuggestions;
@@ -586,10 +589,56 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     /**
      * Modify the auto complete item height
      * @param height auto complete item height in dp
-     * @since 1.2.3
+     * @since 1.3.0
      */
     public void setAutoCompleteItemHeightInDp(int height) {
         autoCompleteItemHeightInDp = (int) (height * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    /**
+     * Enable or disable the auto pairs complete feature
+     * @param enable Flag to enable or disable auto pair complete
+     * @since 1.3.0
+     */
+    public void enablePairComplete(boolean enable) {
+        enablePairComplete = enable;
+    }
+
+    /**
+     * Set the pairs for auto pairs complete feature
+     * @param map Map of pairs of characters
+     * @since 1.3.0
+     */
+    public void setPairCompleteMap(Map<Character, Character> map) {
+        mPairCompleteMap.clear();
+        mPairCompleteMap.putAll(map);
+    }
+
+    /**
+     * Add new pair complete item using key and value
+     * @param key the pair complete item key
+     * @param value the pair complete item value
+     * @since 1.3.0
+     */
+    public void addPairCompleteItem(char key, char value) {
+        mPairCompleteMap.put(key, value);
+    }
+
+    /**
+     * Remove single pair complete item by key
+     * @param key the pair complete item key
+     * @since 1.3.0
+     */
+    public void removePairCompleteItem(char key) {
+        mPairCompleteMap.remove(key);
+    }
+
+    /**
+     * Clear all of pairs
+     * @since 1.3.0
+     */
+    public void clearPairCompleteMap() {
+        mPairCompleteMap.clear();
     }
 
     @Override
@@ -655,11 +704,29 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
 
             if (mRemoveErrorsWhenTextChanged) removeAllErrorLines();
 
-            if (enableAutoIndentation && count == 1) {
-                if (indentationStarts.contains(charSequence.charAt(start)))
-                    currentIndentation += tabLength;
-                else if (indentationEnds.contains(charSequence.charAt(start)))
-                    currentIndentation -= tabLength;
+            if (count == 1 && (enableAutoIndentation || enablePairComplete)) {
+                char currentChar = charSequence.charAt(start);
+                if (enableAutoIndentation) {
+                    if (indentationStarts.contains(currentChar))
+                        currentIndentation += tabLength;
+                    else if (indentationEnds.contains(currentChar))
+                        currentIndentation -= tabLength;
+                }
+
+                if (enablePairComplete) {
+                    Character pairValue = mPairCompleteMap.get(currentChar);
+                    if (pairValue != null) {
+                        modified = false;
+                        append(pairValue.toString());
+                        if (enableAutoIndentation) {
+                            if (indentationStarts.contains(pairValue))
+                                currentIndentation += tabLength;
+                            else if (indentationEnds.contains(pairValue))
+                                currentIndentation -= tabLength;
+                        }
+                        modified = true;
+                    }
+                }
             }
         }
 
