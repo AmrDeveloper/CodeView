@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.3.1 *(2022-02-06)*
+-----------------------------
+
+* Fix calculate indentation issue when user insert on the end with no next char
+
 Version 1.3.0 *(2022-01-27)*
 -----------------------------
 
