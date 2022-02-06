@@ -2,12 +2,18 @@ package com.amrdeveloper.codeviewlibrary.syntax;
 
 import android.content.Context;
 
+import com.amrdeveloper.codeview.Code;
 import com.amrdeveloper.codeview.CodeView;
+import com.amrdeveloper.codeview.Keyword;
 import com.amrdeveloper.codeviewlibrary.R;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
-public class JavaSyntaxUtils {
+public class JavaLanguage {
 
     //Language Keywords
     private static final Pattern PATTERN_KEYWORDS = Pattern.compile("\\b(abstract|boolean|break|byte|case|catch" +
@@ -139,4 +145,28 @@ public class JavaSyntaxUtils {
         codeView.reHighlightSyntax();
     }
 
+    public static String[] getKeywords(Context context) {
+        return context.getResources().getStringArray(R.array.java_keywords);
+    }
+
+    public static List<Code> getCodeList(Context context) {
+        List<Code> codeList = new ArrayList<>();
+        String[] keywords = getKeywords(context);
+        for (String keyword : keywords) {
+            codeList.add(new Keyword(keyword));
+        }
+        return codeList;
+    }
+
+    public static Set<Character> getIndentationStarts() {
+        Set<Character> characterSet = new HashSet<>();
+        characterSet.add('{');
+        return characterSet;
+    }
+
+    public static Set<Character> getIndentationEnds() {
+        Set<Character> characterSet = new HashSet<>();
+        characterSet.add('}');
+        return characterSet;
+    }
 }

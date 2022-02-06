@@ -1,6 +1,6 @@
 package com.amrdeveloper.codeviewlibrary.syntax;
 
-public enum Theme {
+public enum ThemeName {
     MONOKAI,
     NOCTIS_WHITE,
     FIVE_COLOR,
