@@ -790,17 +790,17 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         public CharSequence filter(CharSequence source, int start, int end,
                                    Spanned dest, int dStart, int dEnd) {
             if (modified && enableAutoIndentation && start < source.length()) {
-                boolean isInsertedAtEnd = dest.length() == dEnd;
                 if (source.charAt(start) == '\n') {
-                    char nextChar = dest.charAt(dEnd);
-                    if (isInsertedAtEnd) {
-                        return applyIndentation(source, currentIndentation);
-                    }
+                    // Apply the current indentation if it inserted at the end
+                    if (dest.length() == dEnd) return applyIndentation(source, currentIndentation);
 
+                    // reCalculate the current indentation
                     int indentation = calculateSourceIndentation(dest.subSequence(0, dStart));
-                    if (indentationEnds.contains(nextChar)) {
-                        indentation -= tabLength;
-                    }
+
+                    // Decrement the indentation if the next char is on indentationEnds set
+                    if (indentationEnds.contains(dest.charAt(dEnd))) indentation -= tabLength;
+
+                    // Apply the new indentation to the source code
                     return applyIndentation(source, indentation);
                 }
             }
