@@ -73,6 +73,24 @@ public class LanguageManager {
         }
     }
 
+    public String getCommentStart(LanguageName language) {
+        switch (language) {
+            case JAVA: return JavaLanguage.getCommentStart();
+            case PYTHON: return PythonLanguage.getCommentStart();
+            case GO_LANG: return GoLanguage.getCommentStart();
+            default: return "";
+        }
+    }
+
+    public String getCommentEnd(LanguageName language) {
+        switch (language) {
+            case JAVA: return JavaLanguage.getCommentEnd();
+            case PYTHON: return PythonLanguage.getCommentEnd();
+            case GO_LANG: return GoLanguage.getCommentEnd();
+            default: return "";
+        }
+    }
+
     private void applyMonokaiTheme(LanguageName language) {
         switch (language) {
             case JAVA:

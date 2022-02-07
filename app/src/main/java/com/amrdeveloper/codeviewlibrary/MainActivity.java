@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 
 import com.amrdeveloper.codeview.Code;
 import com.amrdeveloper.codeview.CodeView;
+import com.amrdeveloper.codeviewlibrary.plugin.CommentManager;
 import com.amrdeveloper.codeviewlibrary.syntax.ThemeName;
 import com.amrdeveloper.codeviewlibrary.syntax.LanguageName;
 import com.amrdeveloper.codeviewlibrary.syntax.LanguageManager;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CodeView codeView;
     private LanguageManager languageManager;
+    private CommentManager commentManager;
 
     private LanguageName currentLanguage = LanguageName.JAVA;
     private ThemeName currentTheme = ThemeName.MONOKAI;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configCodeView();
+        configCodeViewPlugins();
     }
 
     private void configCodeView() {
@@ -110,6 +113,17 @@ public class MainActivity extends AppCompatActivity {
         codeView.setIndentationEnds(languageManager.getLanguageIndentationEnds(currentLanguage));
     }
 
+    private void configCodeViewPlugins() {
+        commentManager = new CommentManager(codeView);
+        configCommentInfo();
+
+    }
+
+    private void configCommentInfo() {
+        commentManager.setCommentStart(languageManager.getCommentStart(currentLanguage));
+        commentManager.setCommendEnd(languageManager.getCommentEnd(currentLanguage));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -124,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
         if (menuGroupId == R.id.group_languages) changeTheEditorLanguage(menuItemId);
         else if (menuGroupId == R.id.group_themes) changeTheEditorTheme(menuItemId);
         else if (menuItemId == R.id.findMenu) launchEditorButtonSheet();
+        else if (menuItemId == R.id.comment) commentManager.commentSelected();
+        else if (menuItemId == R.id.un_comment) commentManager.unCommentSelected();
         else if (menuItemId == R.id.clearText) codeView.setText("");
 
         return super.onOptionsItemSelected(item);
@@ -139,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
             languageManager.applyTheme(currentLanguage, currentTheme);
             configLanguageAutoComplete();
             configLanguageAutoIndentation();
+            configCommentInfo();
         }
     }
     

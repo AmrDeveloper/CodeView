@@ -157,4 +157,12 @@ public class PythonLanguage {
     public static Set<Character> getIndentationEnds() {
         return new HashSet<>();
     }
+
+    public static String getCommentStart() {
+        return "#";
+    }
+
+    public static String getCommentEnd() {
+        return "";
+    }
 }

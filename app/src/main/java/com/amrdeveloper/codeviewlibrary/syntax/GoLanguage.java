@@ -159,4 +159,12 @@ public class GoLanguage {
         characterSet.add('}');
         return characterSet;
     }
+
+    public static String getCommentStart() {
+        return "//";
+    }
+
+    public static String getCommentEnd() {
+        return "";
+    }
 }
