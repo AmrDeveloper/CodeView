@@ -141,25 +141,24 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (!enableLineNumber) return;
+        if (enableLineNumber) {
+            final Editable fullText = getText();
+            final Layout layout = getLayout();
+            final int lineCount = getLineCount();
+            int baseline;
+            int currentLineNumber = 1;
 
-        final Editable fullText = getText();
-        final Layout layout = getLayout();
-        final int lineCount = getLineCount();
-        int baseline;
-        int currentLineNumber = 1;
-
-        for (int i = 0; i < lineCount; ++i) {
-            baseline = getLineBounds(i, null);
-            if (i == 0 || fullText.charAt(layout.getLineStart(i) - 1) == '\n') {
-                canvas.drawText(" " + currentLineNumber, lineNumberRect.left, baseline, lineNumberPaint);
-                ++currentLineNumber;
+            for (int i = 0; i < lineCount; ++i) {
+                baseline = getLineBounds(i, null);
+                if (i == 0 || fullText.charAt(layout.getLineStart(i) - 1) == '\n') {
+                    canvas.drawText(" " + currentLineNumber, lineNumberRect.left, baseline, lineNumberPaint);
+                    ++currentLineNumber;
+                }
             }
+
+            int paddingLeft = 40 + (int) (Math.log10(lineCount) + 1) * 10;
+            setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
         }
-
-        int paddingLeft = 40 + (int) (Math.log10(lineCount) + 1) * 10;
-        setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
-
         super.onDraw(canvas);
     }
 
