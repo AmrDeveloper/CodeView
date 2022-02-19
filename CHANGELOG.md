@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.3.2 *(2022-02-19)*
+-----------------------------
+
+* Fix OnDraw not working issue when the line number is disabled
+
 Version 1.3.1 *(2022-02-06)*
 -----------------------------
 
