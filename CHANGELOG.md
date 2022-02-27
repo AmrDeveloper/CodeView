@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.3.3 *(2022-02-28)*
+-----------------------------
+
+* Fix Issue #15: Improve Auto complete drop down position when cursor on the end of the view
+
 Version 1.3.2 *(2022-02-19)*
 -----------------------------
 
