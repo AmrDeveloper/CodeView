@@ -648,9 +648,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         final int[] screenPoint = new int[2];
         getLocationOnScreen(screenPoint);
 
-        final Rect displayFrame = new Rect();
-        getWindowVisibleDisplayFrame(displayFrame);
-
         final Layout layout = getLayout();
         final int position = getSelectionStart();
         final int line = layout.getLineForOffset(position);
@@ -667,8 +664,17 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
             dropDownHeight = modifiedDropDownHeight;
         }
 
+        final Rect displayFrame = new Rect();
+        getWindowVisibleDisplayFrame(displayFrame);
+        int displayFrameHeight = displayFrame.height();
+
+        int verticalOffset = lineButton + dropDownHeight;
+        if (verticalOffset > displayFrameHeight) {
+            verticalOffset = displayFrameHeight - autoCompleteItemHeightInDp;
+        }
+
         setDropDownHeight(dropDownHeight);
-        setDropDownVerticalOffset(lineButton + dropDownHeight);
+        setDropDownVerticalOffset(verticalOffset);
         setDropDownHorizontalOffset((int) layout.getPrimaryHorizontal(position));
 
         super.showDropDown();
