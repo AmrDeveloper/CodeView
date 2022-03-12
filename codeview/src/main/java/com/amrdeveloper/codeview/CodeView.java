@@ -29,6 +29,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.text.Editable;
@@ -577,6 +578,15 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
      */
     public void setMatchingHighlightColor(int color) {
         matchingColor = color;
+    }
+    
+     /**
+     * Modify the typeface of line number
+     * @param typeface The typeface to be set
+     * @since 1.3.4 
+     */
+    public void setLineNumberTypeface(Typeface typeface){
+        lineNumberPaint.setTypeface(typeface);
     }
 
     /**
