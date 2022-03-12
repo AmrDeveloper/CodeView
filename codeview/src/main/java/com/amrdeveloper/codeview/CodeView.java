@@ -583,10 +583,10 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
      /**
      * Modify the typeface of line number
      * @param typeface The typeface to be set
-     * @since [To be added by @AmeDeveloper
+     * @since 1.3.4 
      */
     public void setLineNumberTypeface(Typeface typeface){
-    lineNumberPaint.setTypeface(typeface);
+        lineNumberPaint.setTypeface(typeface);
     }
 
     /**
