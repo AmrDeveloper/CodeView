@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="ic_cv_launcher_background">#19181B</color>
+
     <color name="darkGrey">#272822</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>

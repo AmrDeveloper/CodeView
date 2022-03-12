@@ -1,6 +1,31 @@
 Change Log
 ==========
 
+Version 1.3.3 *(2022-02-28)*
+-----------------------------
+
+* Fix Issue #15: Improve Auto complete drop down position when cursor on the end of the view
+
+Version 1.3.2 *(2022-02-19)*
+-----------------------------
+
+* Fix OnDraw not working issue when the line number is disabled
+
+Version 1.3.1 *(2022-02-06)*
+-----------------------------
+
+* Fix calculate indentation issue when user insert on the end with no next char
+
+Version 1.3.0 *(2022-01-27)*
+-----------------------------
+
+* Improve drawing line number performance
+* Improve Auto Complete implementation to fix multi size drop down popup position
+* Add setMaxSuggestionsSize to limit the number of suggestions
+* Add setAutoCompleteItemHeightInDp take the auto complete list item to change the drop down final size
+* Add support for Auto Pair complete
+* Improve Auto indenting implementation and be able to support python indentation
+
 Version 1.2.2 *(2022-01-20)*
 -----------------------------
 

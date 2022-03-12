@@ -43,6 +43,7 @@ nav:
   - Add to XML: add-to-xml.md
   - Highlight: highlight.md
   - Auto Complete: auto-complete.md
+  - Pair Complete: pair-complete.md
   - Snippets: snippets.md
   - Auto Indenting: auto-indenting.md
   - Find and Replace: find-and-replace.md

@@ -15,22 +15,28 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.amrdeveloper.codeview.Code;
 import com.amrdeveloper.codeview.CodeView;
-import com.amrdeveloper.codeviewlibrary.syntax.Theme;
-import com.amrdeveloper.codeviewlibrary.syntax.Language;
-import com.amrdeveloper.codeviewlibrary.syntax.SyntaxManager;
+import com.amrdeveloper.codeviewlibrary.plugin.CommentManager;
+import com.amrdeveloper.codeviewlibrary.syntax.ThemeName;
+import com.amrdeveloper.codeviewlibrary.syntax.LanguageName;
+import com.amrdeveloper.codeviewlibrary.syntax.LanguageManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private CodeView codeView;
-    private SyntaxManager syntaxManager;
+    private LanguageManager languageManager;
+    private CommentManager commentManager;
 
-    private Language currentLanguage = Language.JAVA;
-    private Theme currentTheme = Theme.MONOKAI;
+    private LanguageName currentLanguage = LanguageName.JAVA;
+    private ThemeName currentTheme = ThemeName.MONOKAI;
+
+    private final boolean useModernAutoCompleteAdapter = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configCodeView();
+        configCodeViewPlugins();
     }
 
     private void configCodeView() {
@@ -56,45 +63,65 @@ public class MainActivity extends AppCompatActivity {
         codeView.setTabLength(4);
         codeView.setEnableAutoIndentation(true);
 
-        Set<Character> indentationStart = new HashSet<>();
-        indentationStart.add('{');
-        codeView.setIndentationStarts(indentationStart);
-
-        Set<Character> indentationEnds = new HashSet<>();
-        indentationEnds.add('}');
-        codeView.setIndentationEnds(indentationEnds);
-
         // Setup the language and theme with SyntaxManager helper class
-        syntaxManager = new SyntaxManager(this, codeView);
-        syntaxManager.applyTheme(currentLanguage,currentTheme);
+        languageManager = new LanguageManager(this, codeView);
+        languageManager.applyTheme(currentLanguage, currentTheme);
 
-        // Setup the auto complete for the current language
+        // Setup auto pair complete
+        final Map<Character, Character> pairCompleteMap = new HashMap<>();
+        pairCompleteMap.put('{', '}');
+        pairCompleteMap.put('[', ']');
+        pairCompleteMap.put('(', ')');
+        pairCompleteMap.put('<', '>');
+        pairCompleteMap.put('"', '"');
+        pairCompleteMap.put('\'', '\'');
+        codeView.setPairCompleteMap(pairCompleteMap);
+        codeView.enablePairComplete(true);
+
+        // Setup the auto complete and auto indenting for the current language
         configLanguageAutoComplete();
+        configLanguageAutoIndentation();
     }
 
     private void configLanguageAutoComplete() {
-        final String[] languageKeywords;
-        switch (currentLanguage) {
-            case JAVA:
-                languageKeywords = getResources().getStringArray(R.array.java_keywords);
-                break;
-            case PYTHON:
-                languageKeywords = getResources().getStringArray(R.array.python_keywords);
-                break;
-            default:
-                languageKeywords = getResources().getStringArray(R.array.go_keywords);
-                break;
+        if (useModernAutoCompleteAdapter) {
+            // Load the code list (keywords and snippets) for the current language
+            List<Code> codeList = languageManager.getLanguageCodeList(currentLanguage);
+
+            // Use CodeViewAdapter or custom one
+            CustomCodeViewAdapter adapter = new CustomCodeViewAdapter(this, codeList);
+
+            // Add the odeViewAdapter to the CodeView
+            codeView.setAdapter(adapter);
+        } else {
+            String[] languageKeywords = languageManager.getLanguageKeywords(currentLanguage);
+
+            // Custom list item xml layout
+            final int layoutId = R.layout.list_item_suggestion;
+
+            // TextView id to put suggestion on it
+            final int viewId = R.id.suggestItemTextView;
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, layoutId, viewId, languageKeywords);
+
+            // Add the ArrayAdapter to the CodeView
+            codeView.setAdapter(adapter);
         }
+    }
 
-        // Custom list item xml layout
-        final int layoutId = R.layout.suggestion_list_item;
+    private void configLanguageAutoIndentation() {
+        codeView.setIndentationStarts(languageManager.getLanguageIndentationStarts(currentLanguage));
+        codeView.setIndentationEnds(languageManager.getLanguageIndentationEnds(currentLanguage));
+    }
 
-        // TextView id to put suggestion on it
-        final int viewId = R.id.suggestItemTextView;
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, layoutId, viewId, languageKeywords);
+    private void configCodeViewPlugins() {
+        commentManager = new CommentManager(codeView);
+        configCommentInfo();
 
-        // Add Custom Adapter to the CodeView
-        codeView.setAdapter(adapter);
+    }
+
+    private void configCommentInfo() {
+        commentManager.setCommentStart(languageManager.getCommentStart(currentLanguage));
+        commentManager.setCommendEnd(languageManager.getCommentEnd(currentLanguage));
     }
 
     @Override
@@ -111,32 +138,36 @@ public class MainActivity extends AppCompatActivity {
         if (menuGroupId == R.id.group_languages) changeTheEditorLanguage(menuItemId);
         else if (menuGroupId == R.id.group_themes) changeTheEditorTheme(menuItemId);
         else if (menuItemId == R.id.findMenu) launchEditorButtonSheet();
+        else if (menuItemId == R.id.comment) commentManager.commentSelected();
+        else if (menuItemId == R.id.un_comment) commentManager.unCommentSelected();
         else if (menuItemId == R.id.clearText) codeView.setText("");
 
         return super.onOptionsItemSelected(item);
     }
 
     private void changeTheEditorLanguage(int languageId) {
-        final Language oldLanguage = currentLanguage;
-        if (languageId == R.id.language_java) currentLanguage = Language.JAVA;
-        else if (languageId == R.id.language_python) currentLanguage = Language.PYTHON;
-        else if(languageId == R.id.language_go) currentLanguage = Language.GO_LANG;
+        final LanguageName oldLanguage = currentLanguage;
+        if (languageId == R.id.language_java) currentLanguage = LanguageName.JAVA;
+        else if (languageId == R.id.language_python) currentLanguage = LanguageName.PYTHON;
+        else if(languageId == R.id.language_go) currentLanguage = LanguageName.GO_LANG;
 
         if (currentLanguage != oldLanguage) {
-            syntaxManager.applyTheme(currentLanguage, currentTheme);
+            languageManager.applyTheme(currentLanguage, currentTheme);
             configLanguageAutoComplete();
+            configLanguageAutoIndentation();
+            configCommentInfo();
         }
     }
     
     private void changeTheEditorTheme(int themeId) {
-        final Theme oldTheme = currentTheme;
-        if (themeId == R.id.theme_monokia) currentTheme = Theme.MONOKAI;
-        else if (themeId == R.id.theme_noctics) currentTheme = Theme.NOCTIS_WHITE;
-        else if(themeId == R.id.theme_five_color) currentTheme = Theme.FIVE_COLOR;
-        else if(themeId == R.id.theme_orange_box) currentTheme = Theme.ORANGE_BOX;
+        final ThemeName oldTheme = currentTheme;
+        if (themeId == R.id.theme_monokia) currentTheme = ThemeName.MONOKAI;
+        else if (themeId == R.id.theme_noctics) currentTheme = ThemeName.NOCTIS_WHITE;
+        else if(themeId == R.id.theme_five_color) currentTheme = ThemeName.FIVE_COLOR;
+        else if(themeId == R.id.theme_orange_box) currentTheme = ThemeName.ORANGE_BOX;
 
         if (currentTheme != oldTheme) {
-            syntaxManager.applyTheme(currentLanguage, currentTheme);
+            languageManager.applyTheme(currentLanguage, currentTheme);
         }
     }
 

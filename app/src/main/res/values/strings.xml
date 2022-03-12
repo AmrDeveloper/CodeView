@@ -9,6 +9,8 @@
     <string name="replacement">Replacement</string>
     <string name="replace_all">Replace all</string>
     <string name="clear_text">Clear Text</string>
+    <string name="comment">Comment</string>
+    <string name="uncomment">UnComment</string>
 
     <!-- Programming Languages -->
     <string name="languages">Languages</string>

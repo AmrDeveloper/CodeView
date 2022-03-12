@@ -2,18 +2,24 @@ package com.amrdeveloper.codeviewlibrary.syntax;
 
 import android.content.Context;
 
+import com.amrdeveloper.codeview.Code;
 import com.amrdeveloper.codeview.CodeView;
+import com.amrdeveloper.codeview.Keyword;
 import com.amrdeveloper.codeviewlibrary.R;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
-public class PythonSyntaxUtils {
+public class GoLanguage {
 
     //Language Keywords
-    private static final Pattern PATTERN_KEYWORDS = Pattern.compile("\\b(False|await|else|import|pass|None|break|except|in|raise" +
-            "|True|class|finally|is|return|and|continue|for|lambda" +
-            "|try|as|def|from|nonlocal|while|assert|del|global|not" +
-            "|with|async|elif|if|or|yield)\\b");
+    private static final Pattern PATTERN_KEYWORDS = Pattern.compile("\\b(break|default|func|interface|case|defer|" +
+            "go|map|struct|chan|else|goto|package|switch|const" +
+            "|fallthrough|if|range|type|continue|for|import|return|var|" +
+            "string|true|false|new|nil|byte|bool|int|int8|int16|int32|int64)\\b");
 
     //Brackets and Colons
     private static final Pattern PATTERN_BUILTINS = Pattern.compile("[,:;[->]{}()]");
@@ -23,10 +29,10 @@ public class PythonSyntaxUtils {
     private static final Pattern PATTERN_CHAR = Pattern.compile("'[a-zA-Z]'");
     private static final Pattern PATTERN_STRING = Pattern.compile("\".*\"");
     private static final Pattern PATTERN_HEX = Pattern.compile("0x[0-9a-fA-F]+");
-    private static final Pattern PATTERN_TODO_COMMENT = Pattern.compile("#TODO[^\n]*");
+    private static final Pattern PATTERN_TODO_COMMENT = Pattern.compile("//TODO[^\n]*");
+    private static final Pattern PATTERN_COMMENT = Pattern.compile("//(?!TODO )[^\\n]*" + "|" + "/\\*(.|\\R)*?\\*/");
     private static final Pattern PATTERN_ATTRIBUTE = Pattern.compile("\\.[a-zA-Z0-9_]+");
     private static final Pattern PATTERN_OPERATION =Pattern.compile( ":|==|>|<|!=|>=|<=|->|=|>|<|%|-|-=|%=|\\+|\\-|\\-=|\\+=|\\^|\\&|\\|::|\\?|\\*");
-    private static final Pattern PATTERN_HASH_COMMENT = Pattern.compile("#(?!TODO )[^\\n]*");
 
     public static void applyMonokaiTheme(Context context, CodeView codeView) {
         codeView.resetSyntaxPatternList();
@@ -42,7 +48,7 @@ public class PythonSyntaxUtils {
         codeView.addSyntaxPattern(PATTERN_NUMBERS, context.getResources().getColor(R.color.monokia_pro_purple));
         codeView.addSyntaxPattern(PATTERN_KEYWORDS, context.getResources().getColor(R.color.monokia_pro_pink));
         codeView.addSyntaxPattern(PATTERN_BUILTINS, context.getResources().getColor(R.color.monokia_pro_white));
-        codeView.addSyntaxPattern(PATTERN_HASH_COMMENT, context.getResources().getColor(R.color.monokia_pro_grey));
+        codeView.addSyntaxPattern(PATTERN_COMMENT, context.getResources().getColor(R.color.monokia_pro_grey));
         codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, context.getResources().getColor(R.color.monokia_pro_sky));
         codeView.addSyntaxPattern(PATTERN_OPERATION, context.getResources().getColor(R.color.monokia_pro_pink));
         //Default Color
@@ -67,9 +73,10 @@ public class PythonSyntaxUtils {
         codeView.addSyntaxPattern(PATTERN_NUMBERS, context.getResources().getColor(R.color.noctis_purple));
         codeView.addSyntaxPattern(PATTERN_KEYWORDS, context.getResources().getColor(R.color.noctis_pink));
         codeView.addSyntaxPattern(PATTERN_BUILTINS, context.getResources().getColor(R.color.noctis_dark_blue));
-        codeView.addSyntaxPattern(PATTERN_HASH_COMMENT, context.getResources().getColor(R.color.noctis_grey));
+        codeView.addSyntaxPattern(PATTERN_COMMENT, context.getResources().getColor(R.color.noctis_grey));
         codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, context.getResources().getColor(R.color.noctis_blue));
         codeView.addSyntaxPattern(PATTERN_OPERATION, context.getResources().getColor(R.color.monokia_pro_pink));
+
         //Default Color
         codeView.setTextColor( context.getResources().getColor(R.color.noctis_orange));
 
@@ -92,7 +99,7 @@ public class PythonSyntaxUtils {
         codeView.addSyntaxPattern(PATTERN_NUMBERS, context.getResources().getColor(R.color.five_dark_purple));
         codeView.addSyntaxPattern(PATTERN_KEYWORDS, context.getResources().getColor(R.color.five_dark_purple));
         codeView.addSyntaxPattern(PATTERN_BUILTINS, context.getResources().getColor(R.color.five_dark_white));
-        codeView.addSyntaxPattern(PATTERN_HASH_COMMENT, context.getResources().getColor(R.color.five_dark_grey));
+        codeView.addSyntaxPattern(PATTERN_COMMENT, context.getResources().getColor(R.color.five_dark_grey));
         codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, context.getResources().getColor(R.color.five_dark_blue));
         codeView.addSyntaxPattern(PATTERN_OPERATION, context.getResources().getColor(R.color.five_dark_purple));
         //Default Color
@@ -117,15 +124,47 @@ public class PythonSyntaxUtils {
         codeView.addSyntaxPattern(PATTERN_NUMBERS, context.getResources().getColor(R.color.five_dark_purple));
         codeView.addSyntaxPattern(PATTERN_KEYWORDS, context.getResources().getColor(R.color.orange_box_orange1));
         codeView.addSyntaxPattern(PATTERN_BUILTINS, context.getResources().getColor(R.color.orange_box_grey));
-        codeView.addSyntaxPattern(PATTERN_HASH_COMMENT, context.getResources().getColor(R.color.orange_box_dark_grey));
+        codeView.addSyntaxPattern(PATTERN_COMMENT, context.getResources().getColor(R.color.orange_box_dark_grey));
         codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, context.getResources().getColor(R.color.orange_box_orange3));
         codeView.addSyntaxPattern(PATTERN_OPERATION, context.getResources().getColor(R.color.gold));
-
         //Default Color
         codeView.setTextColor(context.getResources().getColor(R.color.five_dark_white));
 
         codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, context.getResources().getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
+    }
+
+    public static String[] getKeywords(Context context) {
+        return context.getResources().getStringArray(R.array.go_keywords);
+    }
+
+    public static List<Code> getCodeList(Context context) {
+        List<Code> codeList = new ArrayList<>();
+        String[] keywords = getKeywords(context);
+        for (String keyword : keywords) {
+            codeList.add(new Keyword(keyword));
+        }
+        return codeList;
+    }
+
+    public static Set<Character> getIndentationStarts() {
+        Set<Character> characterSet = new HashSet<>();
+        characterSet.add('{');
+        return characterSet;
+    }
+
+    public static Set<Character> getIndentationEnds() {
+        Set<Character> characterSet = new HashSet<>();
+        characterSet.add('}');
+        return characterSet;
+    }
+
+    public static String getCommentStart() {
+        return "//";
+    }
+
+    public static String getCommentEnd() {
+        return "";
     }
 }

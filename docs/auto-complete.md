@@ -43,3 +43,15 @@ In both options you can provide custom layout and custom tokenizer if you need t
 ```
 codeView.setAutoCompleteTokenizer(tokenizer);
 ```
+
+You can limit the number of suggestions result in the auto complete dialog
+
+```
+codeView.setMaxSuggestionsSize(maxSize);
+```
+
+Set the auto complete list item size in dp to use it to calculate the full dialog size
+
+```
+codeView.setAutoCompleteItemHeightInDp(50);
+```
