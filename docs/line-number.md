@@ -19,3 +19,9 @@ codeView.setLineNumberTextColor(Color.GREY);
 ```
 codeView.setLineNumberTextSize(size);
 ```
+
+### Set line number typeface
+
+```
+codeView.setLineNumberTypeface(typeface);
+```
