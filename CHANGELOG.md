@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.3.4 *(2022-03-20)*
+-----------------------------
+
+* Feature #18: Add option to bring cursor at the middle of pair
+* Feature #11: Add setLineNumberTypeface method to change line number font
+
 Version 1.3.3 *(2022-02-28)*
 -----------------------------
 
