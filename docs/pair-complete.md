@@ -10,6 +10,12 @@ This features is disabled by default to enable or disable it
 codeView.enablePairComplete(enableFeature);
 ```
 
+To enable or disable move the cursor to the center of the pair after inset it
+
+```
+codeView.enablePairCompleteCenterCursor(enableFeature);
+```
+
 To use this feature you need to create a Map that contains the pairs keys and values for example
 
 ```
