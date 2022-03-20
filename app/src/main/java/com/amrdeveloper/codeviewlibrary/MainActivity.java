@@ -75,8 +75,10 @@ public class MainActivity extends AppCompatActivity {
         pairCompleteMap.put('<', '>');
         pairCompleteMap.put('"', '"');
         pairCompleteMap.put('\'', '\'');
+
         codeView.setPairCompleteMap(pairCompleteMap);
         codeView.enablePairComplete(true);
+        codeView.enablePairCompleteCenterCursor(true);
 
         // Setup the auto complete and auto indenting for the current language
         configLanguageAutoComplete();
