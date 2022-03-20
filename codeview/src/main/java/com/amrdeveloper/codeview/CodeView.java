@@ -99,6 +99,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     private int autoCompleteItemHeightInDp = (int) (50 * Resources.getSystem().getDisplayMetrics().density);
 
     private boolean enablePairComplete = false;
+    private boolean enablePairCompleteCenterCursor = false;
     private final Map<Character, Character> mPairCompleteMap = new HashMap<>();
 
     private final Handler mUpdateHandler = new Handler();
@@ -617,6 +618,15 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     }
 
     /**
+     * Enable or disable moving the cursor to the center after insert pair complete
+     * @param enable Flag to enable or disable pair complete center cursor
+     * @since 1.3.4
+     */
+    public void enablePairCompleteCenterCursor(boolean enable) {
+        enablePairCompleteCenterCursor = enable;
+    }
+
+    /**
      * Set the pairs for auto pairs complete feature
      * @param map Map of pairs of characters
      * @since 1.3.0
@@ -756,7 +766,9 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
                     Character pairValue = mPairCompleteMap.get(currentChar);
                     if (pairValue != null) {
                         modified = false;
-                        getText().insert(getSelectionEnd(), pairValue.toString());
+                        int selectionEnd = getSelectionEnd();
+                        getText().insert(selectionEnd, pairValue.toString());
+                        if (enablePairCompleteCenterCursor) setSelection(selectionEnd);
                         if (enableAutoIndentation) {
                             if (indentationStarts.contains(pairValue))
                                 currentIndentation += tabLength;
