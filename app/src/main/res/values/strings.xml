@@ -11,6 +11,8 @@
     <string name="clear_text">Clear Text</string>
     <string name="comment">Comment</string>
     <string name="uncomment">UnComment</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
 
     <!-- Programming Languages -->
     <string name="languages">Languages</string>

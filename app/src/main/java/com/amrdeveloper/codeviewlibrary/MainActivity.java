@@ -20,6 +20,7 @@ import com.amrdeveloper.codeview.Code;
 import com.amrdeveloper.codeview.CodeView;
 import com.amrdeveloper.codeviewlibrary.plugin.CommentManager;
 import com.amrdeveloper.codeviewlibrary.plugin.SourcePositionListener;
+import com.amrdeveloper.codeviewlibrary.plugin.UndoRedoManager;
 import com.amrdeveloper.codeviewlibrary.syntax.ThemeName;
 import com.amrdeveloper.codeviewlibrary.syntax.LanguageName;
 import com.amrdeveloper.codeviewlibrary.syntax.LanguageManager;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private CodeView codeView;
     private LanguageManager languageManager;
     private CommentManager commentManager;
+    private UndoRedoManager undoRedoManager;
 
     private TextView languageNameText;
     private TextView sourcePositionText;
@@ -124,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
         commentManager = new CommentManager(codeView);
         configCommentInfo();
 
+        undoRedoManager = new UndoRedoManager(codeView);
+        undoRedoManager.connect();
+
         languageNameText = findViewById(R.id.language_name_txt);
         configLanguageName();
 
@@ -165,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
         else if (menuItemId == R.id.comment) commentManager.commentSelected();
         else if (menuItemId == R.id.un_comment) commentManager.unCommentSelected();
         else if (menuItemId == R.id.clearText) codeView.setText("");
+        else if (menuItemId == R.id.undo) undoRedoManager.undo();
+        else if (menuItemId == R.id.redo) undoRedoManager.redo();
 
         return super.onOptionsItemSelected(item);
     }
