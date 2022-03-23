@@ -14,10 +14,12 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.amrdeveloper.codeview.Code;
 import com.amrdeveloper.codeview.CodeView;
 import com.amrdeveloper.codeviewlibrary.plugin.CommentManager;
+import com.amrdeveloper.codeviewlibrary.plugin.SourcePositionListener;
 import com.amrdeveloper.codeviewlibrary.syntax.ThemeName;
 import com.amrdeveloper.codeviewlibrary.syntax.LanguageName;
 import com.amrdeveloper.codeviewlibrary.syntax.LanguageManager;
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private CodeView codeView;
     private LanguageManager languageManager;
     private CommentManager commentManager;
+
+    private TextView languageNameText;
+    private TextView sourcePositionText;
 
     private LanguageName currentLanguage = LanguageName.JAVA;
     private ThemeName currentTheme = ThemeName.MONOKAI;
@@ -119,11 +124,28 @@ public class MainActivity extends AppCompatActivity {
         commentManager = new CommentManager(codeView);
         configCommentInfo();
 
+        languageNameText = findViewById(R.id.language_name_txt);
+        configLanguageName();
+
+        sourcePositionText = findViewById(R.id.source_position_txt);
+        sourcePositionText.setText(getString(R.string.source_position, 0, 0));
+        configSourcePositionListener();
     }
 
     private void configCommentInfo() {
         commentManager.setCommentStart(languageManager.getCommentStart(currentLanguage));
         commentManager.setCommendEnd(languageManager.getCommentEnd(currentLanguage));
+    }
+
+    private void configLanguageName() {
+        languageNameText.setText(currentLanguage.name().toLowerCase());
+    }
+
+    private void configSourcePositionListener() {
+        SourcePositionListener sourcePositionListener = new SourcePositionListener(codeView);
+        sourcePositionListener.setOnPositionChanged((line, column) -> {
+            sourcePositionText.setText(getString(R.string.source_position, line, column));
+        });
     }
 
     @Override
@@ -155,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentLanguage != oldLanguage) {
             languageManager.applyTheme(currentLanguage, currentTheme);
+            configLanguageName();
             configLanguageAutoComplete();
             configLanguageAutoIndentation();
             configCommentInfo();
