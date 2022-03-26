@@ -1,6 +1,7 @@
 package com.amrdeveloper.codeviewlibrary.syntax;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.amrdeveloper.codeview.Code;
 import com.amrdeveloper.codeview.CodeView;
@@ -38,23 +39,26 @@ public class GoLanguage {
         codeView.resetSyntaxPatternList();
         codeView.resetHighlighter();
 
+        Resources resources = context.getResources();
+
         //View Background
-        codeView.setBackgroundColor(codeView.getResources().getColor(R.color.monokia_pro_black));
+        codeView.setBackgroundColor(resources.getColor(R.color.monokia_pro_black));
 
         //Syntax Colors
-        codeView.addSyntaxPattern(PATTERN_HEX, context.getResources().getColor(R.color.monokia_pro_purple));
-        codeView.addSyntaxPattern(PATTERN_CHAR, context.getResources().getColor(R.color.monokia_pro_green));
-        codeView.addSyntaxPattern(PATTERN_STRING, context.getResources().getColor(R.color.monokia_pro_orange));
-        codeView.addSyntaxPattern(PATTERN_NUMBERS, context.getResources().getColor(R.color.monokia_pro_purple));
-        codeView.addSyntaxPattern(PATTERN_KEYWORDS, context.getResources().getColor(R.color.monokia_pro_pink));
-        codeView.addSyntaxPattern(PATTERN_BUILTINS, context.getResources().getColor(R.color.monokia_pro_white));
-        codeView.addSyntaxPattern(PATTERN_COMMENT, context.getResources().getColor(R.color.monokia_pro_grey));
-        codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, context.getResources().getColor(R.color.monokia_pro_sky));
-        codeView.addSyntaxPattern(PATTERN_OPERATION, context.getResources().getColor(R.color.monokia_pro_pink));
-        //Default Color
-        codeView.setTextColor( context.getResources().getColor(R.color.monokia_pro_white));
+        codeView.addSyntaxPattern(PATTERN_HEX, resources.getColor(R.color.monokia_pro_purple));
+        codeView.addSyntaxPattern(PATTERN_CHAR, resources.getColor(R.color.monokia_pro_green));
+        codeView.addSyntaxPattern(PATTERN_STRING, resources.getColor(R.color.monokia_pro_orange));
+        codeView.addSyntaxPattern(PATTERN_NUMBERS, resources.getColor(R.color.monokia_pro_purple));
+        codeView.addSyntaxPattern(PATTERN_KEYWORDS, resources.getColor(R.color.monokia_pro_pink));
+        codeView.addSyntaxPattern(PATTERN_BUILTINS, resources.getColor(R.color.monokia_pro_white));
+        codeView.addSyntaxPattern(PATTERN_COMMENT, resources.getColor(R.color.monokia_pro_grey));
+        codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, resources.getColor(R.color.monokia_pro_sky));
+        codeView.addSyntaxPattern(PATTERN_OPERATION, resources.getColor(R.color.monokia_pro_pink));
 
-        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, context.getResources().getColor(R.color.gold));
+        //Default Color
+        codeView.setTextColor(resources.getColor(R.color.monokia_pro_white));
+
+        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, resources.getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
     }
@@ -63,24 +67,26 @@ public class GoLanguage {
         codeView.resetSyntaxPatternList();
         codeView.resetHighlighter();
 
+        Resources resources = context.getResources();
+
         //View Background
-        codeView.setBackgroundColor(codeView.getResources().getColor(R.color.noctis_white));
+        codeView.setBackgroundColor(resources.getColor(R.color.noctis_white));
 
         //Syntax Colors
-        codeView.addSyntaxPattern(PATTERN_HEX, context.getResources().getColor(R.color.noctis_purple));
-        codeView.addSyntaxPattern(PATTERN_CHAR, context.getResources().getColor(R.color.noctis_green));
-        codeView.addSyntaxPattern(PATTERN_STRING, context.getResources().getColor(R.color.noctis_green));
-        codeView.addSyntaxPattern(PATTERN_NUMBERS, context.getResources().getColor(R.color.noctis_purple));
-        codeView.addSyntaxPattern(PATTERN_KEYWORDS, context.getResources().getColor(R.color.noctis_pink));
-        codeView.addSyntaxPattern(PATTERN_BUILTINS, context.getResources().getColor(R.color.noctis_dark_blue));
-        codeView.addSyntaxPattern(PATTERN_COMMENT, context.getResources().getColor(R.color.noctis_grey));
-        codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, context.getResources().getColor(R.color.noctis_blue));
-        codeView.addSyntaxPattern(PATTERN_OPERATION, context.getResources().getColor(R.color.monokia_pro_pink));
+        codeView.addSyntaxPattern(PATTERN_HEX, resources.getColor(R.color.noctis_purple));
+        codeView.addSyntaxPattern(PATTERN_CHAR, resources.getColor(R.color.noctis_green));
+        codeView.addSyntaxPattern(PATTERN_STRING, resources.getColor(R.color.noctis_green));
+        codeView.addSyntaxPattern(PATTERN_NUMBERS, resources.getColor(R.color.noctis_purple));
+        codeView.addSyntaxPattern(PATTERN_KEYWORDS, resources.getColor(R.color.noctis_pink));
+        codeView.addSyntaxPattern(PATTERN_BUILTINS, resources.getColor(R.color.noctis_dark_blue));
+        codeView.addSyntaxPattern(PATTERN_COMMENT, resources.getColor(R.color.noctis_grey));
+        codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, resources.getColor(R.color.noctis_blue));
+        codeView.addSyntaxPattern(PATTERN_OPERATION, resources.getColor(R.color.monokia_pro_pink));
 
         //Default Color
-        codeView.setTextColor( context.getResources().getColor(R.color.noctis_orange));
+        codeView.setTextColor(resources.getColor(R.color.noctis_orange));
 
-        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, context.getResources().getColor(R.color.gold));
+        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, resources.getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
     }
@@ -89,23 +95,26 @@ public class GoLanguage {
         codeView.resetSyntaxPatternList();
         codeView.resetHighlighter();
 
+        Resources resources = context.getResources();
+
         //View Background
-        codeView.setBackgroundColor(codeView.getResources().getColor(R.color.five_dark_black));
+        codeView.setBackgroundColor(resources.getColor(R.color.five_dark_black));
 
         //Syntax Colors
-        codeView.addSyntaxPattern(PATTERN_HEX, context.getResources().getColor(R.color.five_dark_purple));
-        codeView.addSyntaxPattern(PATTERN_CHAR, context.getResources().getColor(R.color.five_dark_yellow));
-        codeView.addSyntaxPattern(PATTERN_STRING, context.getResources().getColor(R.color.five_dark_yellow));
-        codeView.addSyntaxPattern(PATTERN_NUMBERS, context.getResources().getColor(R.color.five_dark_purple));
-        codeView.addSyntaxPattern(PATTERN_KEYWORDS, context.getResources().getColor(R.color.five_dark_purple));
-        codeView.addSyntaxPattern(PATTERN_BUILTINS, context.getResources().getColor(R.color.five_dark_white));
-        codeView.addSyntaxPattern(PATTERN_COMMENT, context.getResources().getColor(R.color.five_dark_grey));
-        codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, context.getResources().getColor(R.color.five_dark_blue));
-        codeView.addSyntaxPattern(PATTERN_OPERATION, context.getResources().getColor(R.color.five_dark_purple));
-        //Default Color
-        codeView.setTextColor( context.getResources().getColor(R.color.five_dark_white));
+        codeView.addSyntaxPattern(PATTERN_HEX, resources.getColor(R.color.five_dark_purple));
+        codeView.addSyntaxPattern(PATTERN_CHAR, resources.getColor(R.color.five_dark_yellow));
+        codeView.addSyntaxPattern(PATTERN_STRING, resources.getColor(R.color.five_dark_yellow));
+        codeView.addSyntaxPattern(PATTERN_NUMBERS, resources.getColor(R.color.five_dark_purple));
+        codeView.addSyntaxPattern(PATTERN_KEYWORDS, resources.getColor(R.color.five_dark_purple));
+        codeView.addSyntaxPattern(PATTERN_BUILTINS, resources.getColor(R.color.five_dark_white));
+        codeView.addSyntaxPattern(PATTERN_COMMENT, resources.getColor(R.color.five_dark_grey));
+        codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, resources.getColor(R.color.five_dark_blue));
+        codeView.addSyntaxPattern(PATTERN_OPERATION, resources.getColor(R.color.five_dark_purple));
 
-        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, context.getResources().getColor(R.color.gold));
+        //Default Color
+        codeView.setTextColor(resources.getColor(R.color.five_dark_white));
+
+        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, resources.getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
     }
@@ -114,23 +123,26 @@ public class GoLanguage {
         codeView.resetSyntaxPatternList();
         codeView.resetHighlighter();
 
+        Resources resources = context.getResources();
+
         //View Background
-        codeView.setBackgroundColor(codeView.getResources().getColor(R.color.orange_box_black));
+        codeView.setBackgroundColor(resources.getColor(R.color.orange_box_black));
 
         //Syntax Colors
-        codeView.addSyntaxPattern(PATTERN_HEX, context.getResources().getColor(R.color.gold));
-        codeView.addSyntaxPattern(PATTERN_CHAR, context.getResources().getColor(R.color.orange_box_orange2));
-        codeView.addSyntaxPattern(PATTERN_STRING, context.getResources().getColor(R.color.orange_box_orange2));
-        codeView.addSyntaxPattern(PATTERN_NUMBERS, context.getResources().getColor(R.color.five_dark_purple));
-        codeView.addSyntaxPattern(PATTERN_KEYWORDS, context.getResources().getColor(R.color.orange_box_orange1));
-        codeView.addSyntaxPattern(PATTERN_BUILTINS, context.getResources().getColor(R.color.orange_box_grey));
-        codeView.addSyntaxPattern(PATTERN_COMMENT, context.getResources().getColor(R.color.orange_box_dark_grey));
-        codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, context.getResources().getColor(R.color.orange_box_orange3));
-        codeView.addSyntaxPattern(PATTERN_OPERATION, context.getResources().getColor(R.color.gold));
-        //Default Color
-        codeView.setTextColor(context.getResources().getColor(R.color.five_dark_white));
+        codeView.addSyntaxPattern(PATTERN_HEX, resources.getColor(R.color.gold));
+        codeView.addSyntaxPattern(PATTERN_CHAR, resources.getColor(R.color.orange_box_orange2));
+        codeView.addSyntaxPattern(PATTERN_STRING, resources.getColor(R.color.orange_box_orange2));
+        codeView.addSyntaxPattern(PATTERN_NUMBERS, resources.getColor(R.color.five_dark_purple));
+        codeView.addSyntaxPattern(PATTERN_KEYWORDS, resources.getColor(R.color.orange_box_orange1));
+        codeView.addSyntaxPattern(PATTERN_BUILTINS, resources.getColor(R.color.orange_box_grey));
+        codeView.addSyntaxPattern(PATTERN_COMMENT, resources.getColor(R.color.orange_box_dark_grey));
+        codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, resources.getColor(R.color.orange_box_orange3));
+        codeView.addSyntaxPattern(PATTERN_OPERATION, resources.getColor(R.color.gold));
 
-        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, context.getResources().getColor(R.color.gold));
+        //Default Color
+        codeView.setTextColor(resources.getColor(R.color.five_dark_white));
+
+        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, resources.getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
     }
