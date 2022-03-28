@@ -30,8 +30,8 @@ public class GoLanguage {
     private static final Pattern PATTERN_CHAR = Pattern.compile("'[a-zA-Z]'");
     private static final Pattern PATTERN_STRING = Pattern.compile("\".*\"");
     private static final Pattern PATTERN_HEX = Pattern.compile("0x[0-9a-fA-F]+");
-    private static final Pattern PATTERN_TODO_COMMENT = Pattern.compile("//TODO[^\n]*");
-    private static final Pattern PATTERN_COMMENT = Pattern.compile("//(?!TODO )[^\\n]*" + "|" + "/\\*(.|\\R)*?\\*/");
+    private static final Pattern PATTERN_SINGLE_LINE_COMMENT = Pattern.compile("//[^\\n]*");
+    private static final Pattern PATTERN_MULTI_LINE_COMMENT = Pattern.compile("/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/");
     private static final Pattern PATTERN_ATTRIBUTE = Pattern.compile("\\.[a-zA-Z0-9_]+");
     private static final Pattern PATTERN_OPERATION =Pattern.compile( ":|==|>|<|!=|>=|<=|->|=|>|<|%|-|-=|%=|\\+|\\-|\\-=|\\+=|\\^|\\&|\\|::|\\?|\\*");
 
@@ -51,14 +51,13 @@ public class GoLanguage {
         codeView.addSyntaxPattern(PATTERN_NUMBERS, resources.getColor(R.color.monokia_pro_purple));
         codeView.addSyntaxPattern(PATTERN_KEYWORDS, resources.getColor(R.color.monokia_pro_pink));
         codeView.addSyntaxPattern(PATTERN_BUILTINS, resources.getColor(R.color.monokia_pro_white));
-        codeView.addSyntaxPattern(PATTERN_COMMENT, resources.getColor(R.color.monokia_pro_grey));
+        codeView.addSyntaxPattern(PATTERN_SINGLE_LINE_COMMENT, resources.getColor(R.color.monokia_pro_grey));
+        codeView.addSyntaxPattern(PATTERN_MULTI_LINE_COMMENT, resources.getColor(R.color.monokia_pro_grey));
         codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, resources.getColor(R.color.monokia_pro_sky));
         codeView.addSyntaxPattern(PATTERN_OPERATION, resources.getColor(R.color.monokia_pro_pink));
 
         //Default Color
         codeView.setTextColor(resources.getColor(R.color.monokia_pro_white));
-
-        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, resources.getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
     }
@@ -79,14 +78,13 @@ public class GoLanguage {
         codeView.addSyntaxPattern(PATTERN_NUMBERS, resources.getColor(R.color.noctis_purple));
         codeView.addSyntaxPattern(PATTERN_KEYWORDS, resources.getColor(R.color.noctis_pink));
         codeView.addSyntaxPattern(PATTERN_BUILTINS, resources.getColor(R.color.noctis_dark_blue));
-        codeView.addSyntaxPattern(PATTERN_COMMENT, resources.getColor(R.color.noctis_grey));
+        codeView.addSyntaxPattern(PATTERN_SINGLE_LINE_COMMENT, resources.getColor(R.color.noctis_grey));
+        codeView.addSyntaxPattern(PATTERN_MULTI_LINE_COMMENT, resources.getColor(R.color.noctis_grey));
         codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, resources.getColor(R.color.noctis_blue));
         codeView.addSyntaxPattern(PATTERN_OPERATION, resources.getColor(R.color.monokia_pro_pink));
 
         //Default Color
         codeView.setTextColor(resources.getColor(R.color.noctis_orange));
-
-        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, resources.getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
     }
@@ -107,14 +105,13 @@ public class GoLanguage {
         codeView.addSyntaxPattern(PATTERN_NUMBERS, resources.getColor(R.color.five_dark_purple));
         codeView.addSyntaxPattern(PATTERN_KEYWORDS, resources.getColor(R.color.five_dark_purple));
         codeView.addSyntaxPattern(PATTERN_BUILTINS, resources.getColor(R.color.five_dark_white));
-        codeView.addSyntaxPattern(PATTERN_COMMENT, resources.getColor(R.color.five_dark_grey));
+        codeView.addSyntaxPattern(PATTERN_SINGLE_LINE_COMMENT, resources.getColor(R.color.five_dark_grey));
+        codeView.addSyntaxPattern(PATTERN_MULTI_LINE_COMMENT, resources.getColor(R.color.five_dark_grey));
         codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, resources.getColor(R.color.five_dark_blue));
         codeView.addSyntaxPattern(PATTERN_OPERATION, resources.getColor(R.color.five_dark_purple));
 
         //Default Color
         codeView.setTextColor(resources.getColor(R.color.five_dark_white));
-
-        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, resources.getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
     }
@@ -135,14 +132,13 @@ public class GoLanguage {
         codeView.addSyntaxPattern(PATTERN_NUMBERS, resources.getColor(R.color.five_dark_purple));
         codeView.addSyntaxPattern(PATTERN_KEYWORDS, resources.getColor(R.color.orange_box_orange1));
         codeView.addSyntaxPattern(PATTERN_BUILTINS, resources.getColor(R.color.orange_box_grey));
-        codeView.addSyntaxPattern(PATTERN_COMMENT, resources.getColor(R.color.orange_box_dark_grey));
+        codeView.addSyntaxPattern(PATTERN_SINGLE_LINE_COMMENT, resources.getColor(R.color.orange_box_dark_grey));
+        codeView.addSyntaxPattern(PATTERN_MULTI_LINE_COMMENT, resources.getColor(R.color.orange_box_dark_grey));
         codeView.addSyntaxPattern(PATTERN_ATTRIBUTE, resources.getColor(R.color.orange_box_orange3));
         codeView.addSyntaxPattern(PATTERN_OPERATION, resources.getColor(R.color.gold));
 
         //Default Color
         codeView.setTextColor(resources.getColor(R.color.five_dark_white));
-
-        codeView.addSyntaxPattern(PATTERN_TODO_COMMENT, resources.getColor(R.color.gold));
 
         codeView.reHighlightSyntax();
     }
