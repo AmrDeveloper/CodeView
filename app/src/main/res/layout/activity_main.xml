@@ -14,7 +14,8 @@
         android:dropDownWidth="@dimen/dimen150dp"
         android:dropDownHorizontalOffset="0dp"
         android:dropDownSelector="@color/darkGrey"
-        android:gravity="top|start" />
+        android:gravity="top|start"
+        android:textDirection="firstStrong" />
 
     <RelativeLayout
         android:id="@+id/source_info_layout"
