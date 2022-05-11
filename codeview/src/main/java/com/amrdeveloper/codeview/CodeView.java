@@ -665,9 +665,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
 
     @Override
     public void showDropDown() {
-        final int[] screenPoint = new int[2];
-        getLocationOnScreen(screenPoint);
-
         final Layout layout = getLayout();
         final int position = getSelectionStart();
         final int line = layout.getLineForOffset(position);
