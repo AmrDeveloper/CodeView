@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.3.5 *(2022-05-13)*
+-----------------------------
+
+* Fix #28: auto complete on Android 6 and lower
+* Remove un used get location call on auto complete
+
 Version 1.3.4 *(2022-03-20)*
 -----------------------------
 
