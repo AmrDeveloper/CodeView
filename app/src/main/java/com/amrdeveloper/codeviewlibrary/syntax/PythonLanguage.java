@@ -27,7 +27,7 @@ public class PythonLanguage {
 
     //Data
     private static final Pattern PATTERN_NUMBERS = Pattern.compile("\\b(\\d*[.]?\\d+)\\b");
-    private static final Pattern PATTERN_CHAR = Pattern.compile("['](.*?)[']|");
+    private static final Pattern PATTERN_CHAR = Pattern.compile("['](.*?)[']");
     private static final Pattern PATTERN_STRING = Pattern.compile("[\"](.*?)[\"]");
     private static final Pattern PATTERN_HEX = Pattern.compile("0x[0-9a-fA-F]+");
     private static final Pattern PATTERN_TODO_COMMENT = Pattern.compile("#TODO[^\n]*");
