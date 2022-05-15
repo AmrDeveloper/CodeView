@@ -27,7 +27,7 @@ public class GoLanguage {
 
     //Data
     private static final Pattern PATTERN_NUMBERS = Pattern.compile("\\b(\\d*[.]?\\d+)\\b");
-    private static final Pattern PATTERN_CHAR = Pattern.compile("['](.*?)[']|");
+    private static final Pattern PATTERN_CHAR = Pattern.compile("['](.*?)[']");
     private static final Pattern PATTERN_STRING = Pattern.compile("[\"](.*?)[\"]");
     private static final Pattern PATTERN_HEX = Pattern.compile("0x[0-9a-fA-F]+");
     private static final Pattern PATTERN_SINGLE_LINE_COMMENT = Pattern.compile("//[^\\n]*");
