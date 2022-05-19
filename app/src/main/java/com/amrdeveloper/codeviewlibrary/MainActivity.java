@@ -29,6 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -228,9 +229,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String text = editable.toString();
+                String text = editable.toString().trim();
                 if (text.isEmpty()) codeView.clearMatches();
-                codeView.findMatches(text);
+                codeView.findMatches(Pattern.quote(text));
             }
         });
 
