@@ -78,7 +78,12 @@
         android:title="@string/uncomment" />
 
     <item
-        android:id="@+id/clearText"
+        android:id="@+id/toggle_relative_line_number"
         android:orderInCategory="8"
+        android:title="@string/relative_line_number" />
+
+    <item
+        android:id="@+id/clearText"
+        android:orderInCategory="9"
         android:title="@string/clear_text" />
 </menu>

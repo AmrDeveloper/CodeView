@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         else if (menuItemId == R.id.comment) commentManager.commentSelected();
         else if (menuItemId == R.id.un_comment) commentManager.unCommentSelected();
         else if (menuItemId == R.id.clearText) codeView.setText("");
+        else if (menuItemId == R.id.toggle_relative_line_number) toggleRelativeLineNumber();
         else if (menuItemId == R.id.undo) undoRedoManager.undo();
         else if (menuItemId == R.id.redo) undoRedoManager.redo();
 
@@ -202,6 +203,12 @@ public class MainActivity extends AppCompatActivity {
         if (currentTheme != oldTheme) {
             languageManager.applyTheme(currentLanguage, currentTheme);
         }
+    }
+
+    private void toggleRelativeLineNumber() {
+        boolean isRelativeLineNumberEnabled = codeView.isLineRelativeNumberEnabled();
+        isRelativeLineNumberEnabled = !isRelativeLineNumberEnabled;
+        codeView.setEnableRelativeLineNumber(isRelativeLineNumberEnabled);
     }
 
     private void launchEditorButtonSheet() {

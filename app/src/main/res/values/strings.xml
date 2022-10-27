@@ -11,6 +11,7 @@
     <string name="clear_text">Clear Text</string>
     <string name="comment">Comment</string>
     <string name="uncomment">UnComment</string>
+    <string name="relative_line_number">Relative Line Number</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
 
