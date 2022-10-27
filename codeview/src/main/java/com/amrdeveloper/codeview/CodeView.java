@@ -36,6 +36,7 @@ import android.text.Editable;
 
 import android.text.InputFilter;
 import android.text.Layout;
+import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -84,6 +85,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     private Rect lineNumberRect;
     private Paint lineNumberPaint;
     private boolean enableLineNumber = false;
+    private boolean enableRelativeLineNumber = false;
 
     private int currentIndentation = 0;
     private boolean enableAutoIndentation = false;
@@ -147,14 +149,17 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
             final Editable fullText = getText();
             final Layout layout = getLayout();
             final int lineCount = getLineCount();
-            int baseline;
-            int currentLineNumber = 1;
+            final int selectionStart = Selection.getSelectionStart(fullText);
+            final int cursorLine = layout.getLineForOffset(selectionStart);
 
             for (int i = 0; i < lineCount; ++i) {
-                baseline = getLineBounds(i, null);
+                final int baseline = getLineBounds(i, null);
                 if (i == 0 || fullText.charAt(layout.getLineStart(i) - 1) == '\n') {
-                    canvas.drawText(" " + currentLineNumber, lineNumberRect.left, baseline, lineNumberPaint);
-                    ++currentLineNumber;
+                    // If relative line number is enabled the number should be the absolute value of cursorLine - i)
+                    // if not it should be just current line number
+                    // Add 1 to the current line number to make it start from 1 not 0
+                    int lineNumber = (i == cursorLine || !enableRelativeLineNumber) ? i + 1 : Math.abs(cursorLine - i);
+                    canvas.drawText(" " + lineNumber, lineNumberRect.left, baseline, lineNumberPaint);
                 }
             }
 
@@ -552,6 +557,23 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
      */
     public boolean isLineNumberEnabled() {
         return enableLineNumber;
+    }
+
+    /**
+     * Enable or disable the relative line number feature
+     * @param enableRelativeLineNumber  Flag to enable or disable line relative number
+     * @since 1.3.6
+     */
+    public void setEnableRelativeLineNumber(boolean enableRelativeLineNumber) {
+        this.enableRelativeLineNumber = enableRelativeLineNumber;
+    }
+
+    /**
+     * @return (@code true) if relative line number is enabled
+     * @since 1.3.6
+     */
+    public boolean isLineRelativeNumberEnabled() {
+        return enableRelativeLineNumber;
     }
 
     /**
