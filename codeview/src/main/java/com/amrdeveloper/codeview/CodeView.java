@@ -163,7 +163,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
                 }
             }
 
-            int paddingLeft = 40 + (int) (Math.log10(lineCount) + 1) * 10;
+            final int paddingLeft = 50 + (int) Math.log10(lineCount) * 10;
             setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
         }
         super.onDraw(canvas);
