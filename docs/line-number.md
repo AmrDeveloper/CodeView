@@ -8,6 +8,24 @@ Starting From version 1.1.1 CodeView now have support for line number.
 codeView.setEnableLineNumber(enableLineNumber);
 ```
 
+### Check if line number is enabled
+
+```
+codeView.isLineNumberEnabled();
+```
+
+### Enable/Disable relative line number
+
+```
+codeView.setEnableRelativeLineNumber(enableRelativeLineNumber);
+```
+
+### Check if relative line number is enabled
+
+```
+codeView.isLineRelativeNumberEnabled();
+```
+
 ### Set line number text color
 
 ```
