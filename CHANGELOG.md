@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.3.7 *(2022-10-28)*
+-----------------------------
+
+* Make highlighting current line number option off by default
+
 Version 1.3.6 *(2022-10-28)*
 -----------------------------
 
