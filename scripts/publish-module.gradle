@@ -3,7 +3,7 @@ apply plugin: 'signing'
 
 ext {
     PUBLISH_GROUP_ID = 'io.github.amrdeveloper'
-    PUBLISH_VERSION = '1.3.5'
+    PUBLISH_VERSION = '1.3.6'
     PUBLISH_ARTIFACT_ID = 'codeview'
 }
 
