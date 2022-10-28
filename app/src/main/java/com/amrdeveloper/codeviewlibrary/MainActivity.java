@@ -67,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         codeView.setLineNumberTextColor(Color.GRAY);
         codeView.setLineNumberTextSize(25f);
 
+        // Setup highlighting current line
+        codeView.setEnableHighlightCurrentLine(true);
+        codeView.setHighlightCurrentLineColor(Color.GRAY);
+
         // Setup Auto indenting feature
         codeView.setTabLength(4);
         codeView.setEnableAutoIndentation(true);
