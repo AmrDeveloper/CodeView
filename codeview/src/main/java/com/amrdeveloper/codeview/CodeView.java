@@ -82,24 +82,35 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     private boolean hasErrors = false;
     private boolean mRemoveErrorsWhenTextChanged = true;
 
+    // Line number options
     private Rect lineNumberRect;
     private Paint lineNumberPaint;
     private boolean enableLineNumber = false;
     private boolean enableRelativeLineNumber = false;
 
+    // Highlighting current line options
+    private Rect lineBounds;
+    private Paint highlightLinePaint;
+    private boolean enableHighlightCurrentLine = true;
+    private final static int LINE_HIGHLIGHT_DEFAULT_COLOR = Color.DKGRAY;
+
+    // Indentations options
     private int currentIndentation = 0;
     private boolean enableAutoIndentation = false;
     private final Set<Character> indentationStarts = new HashSet<>();
     private final Set<Character> indentationEnds = new HashSet<>();
 
+    // Matches and tokens
     private int currentMatchedIndex = -1;
     private int matchingColor = Color.YELLOW;
     private CharacterStyle currentMatchedToken;
     private final List<Token> matchedTokens = new ArrayList<>();
 
+    // Auto complete and Suggestions
     private int maxNumberOfSuggestions = Integer.MAX_VALUE;
     private int autoCompleteItemHeightInDp = (int) (50 * Resources.getSystem().getDisplayMetrics().density);
 
+    // Auto pair complete
     private boolean enablePairComplete = false;
     private boolean enablePairCompleteCenterCursor = false;
     private final Map<Character, Character> mPairCompleteMap = new HashMap<>();
@@ -141,30 +152,44 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         lineNumberRect = new Rect();
         lineNumberPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         lineNumberPaint.setStyle(Paint.Style.FILL);
+
+        lineBounds = new Rect();
+        highlightLinePaint = new Paint();
+        highlightLinePaint.setColor(LINE_HIGHLIGHT_DEFAULT_COLOR);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (enableLineNumber) {
+        if (enableLineNumber  || enableHighlightCurrentLine) {
             final Editable fullText = getText();
             final Layout layout = getLayout();
             final int lineCount = getLineCount();
             final int selectionStart = Selection.getSelectionStart(fullText);
             final int cursorLine = layout.getLineForOffset(selectionStart);
 
-            for (int i = 0; i < lineCount; ++i) {
-                final int baseline = getLineBounds(i, null);
-                if (i == 0 || fullText.charAt(layout.getLineStart(i) - 1) == '\n') {
-                    // If relative line number is enabled the number should be the absolute value of cursorLine - i)
-                    // if not it should be just current line number
-                    // Add 1 to the current line number to make it start from 1 not 0
-                    int lineNumber = (i == cursorLine || !enableRelativeLineNumber) ? i + 1 : Math.abs(cursorLine - i);
-                    canvas.drawText(" " + lineNumber, lineNumberRect.left, baseline, lineNumberPaint);
-                }
+            // Highlight the current line with custom color by drawing rectangle on this line
+            if (enableHighlightCurrentLine) {
+                getLineBounds(cursorLine, lineBounds);
+                canvas.drawRect(lineBounds, highlightLinePaint);
             }
 
-            final int paddingLeft = 50 + (int) Math.log10(lineCount) * 10;
-            setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
+            // Draw line number or relative line number
+            if (enableLineNumber) {
+                for (int i = 0; i < lineCount; ++i) {
+                    final int baseline = getLineBounds(i, null);
+                    if (i == 0 || fullText.charAt(layout.getLineStart(i) - 1) == '\n') {
+                        // If relative line number is enabled the number should be the absolute value of cursorLine - i)
+                        // if not it should be just current line number
+                        // Add 1 to the current line number to make it start from 1 not 0
+                        int lineNumber = (i == cursorLine || !enableRelativeLineNumber) ? i + 1 : Math.abs(cursorLine - i);
+                        canvas.drawText(" " + lineNumber, lineNumberRect.left, baseline, lineNumberPaint);
+                    }
+                }
+
+                // Calculate padding depending on current line number
+                final int paddingLeft = 50 + (int) Math.log10(lineCount) * 10;
+                setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
+            }
         }
         super.onDraw(canvas);
     }
@@ -574,6 +599,32 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
      */
     public boolean isLineRelativeNumberEnabled() {
         return enableRelativeLineNumber;
+    }
+
+    /**
+     * Enable or disable the highlighting current line feature
+     * @param enableHighlightCurrentLine  Flag to enable or disable highlighting current line
+     * @since 1.3.6
+     */
+    public void setEnableHighlightCurrentLine(boolean enableHighlightCurrentLine) {
+        this.enableHighlightCurrentLine = enableHighlightCurrentLine;
+    }
+
+    /**
+     * @return (@code true) if highlighting current line feature is enabled
+     * @since 1.3.6
+     */
+    public boolean isHighlightCurrentLineEnabled() {
+        return enableHighlightCurrentLine;
+    }
+
+    /**
+     * Modify the highlight current line  color
+     * @param color The new color value
+     * @since 1.1.0
+     */
+    public void setHighlightCurrentLineColor(int color) {
+        highlightLinePaint.setColor(color);
     }
 
     /**
