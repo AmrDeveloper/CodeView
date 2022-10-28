@@ -91,7 +91,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
     // Highlighting current line options
     private Rect lineBounds;
     private Paint highlightLinePaint;
-    private boolean enableHighlightCurrentLine = true;
+    private boolean enableHighlightCurrentLine = false;
     private final static int LINE_HIGHLIGHT_DEFAULT_COLOR = Color.DKGRAY;
 
     // Indentations options
