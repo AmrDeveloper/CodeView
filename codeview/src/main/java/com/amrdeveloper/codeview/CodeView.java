@@ -784,8 +784,6 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (!enableAutoIndentation) return false;
-            if (event.getAction() != KeyEvent.ACTION_DOWN)
-                return true;
             switch (keyCode) {
                 case KeyEvent.KEYCODE_SPACE:
                     currentIndentation++;
