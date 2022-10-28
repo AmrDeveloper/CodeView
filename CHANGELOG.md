@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.3.6 *(2022-10-28)*
+-----------------------------
+
+* Improve calculating line number padding from 3k ns to 1.5k ns per line.
+* Add support for relative line number feature inspired from vim editor
+* Add support for highlighting the current line and customize the color
+
 Version 1.3.5 *(2022-05-13)*
 -----------------------------
 
