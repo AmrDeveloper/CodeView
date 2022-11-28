@@ -27,22 +27,24 @@ package com.amrdeveloper.codeview;
 import android.widget.MultiAutoCompleteTextView;
 
 /**
- * The default tokenizer that used in CodeView auto complete feature
+ * The default tokenizer that used for CodeView auto complete feature
  */
 public class KeywordTokenizer implements MultiAutoCompleteTextView.Tokenizer {
 
     @Override
     public int findTokenStart(CharSequence charSequence, int cursor) {
-        String sequenceStr = charSequence.toString();
-        sequenceStr = sequenceStr.substring(0, cursor);
+        // All text until the current cursor position
+        final String sequenceStr = charSequence.toString().substring(0, cursor);
 
-        int spaceIndex = sequenceStr.lastIndexOf(" ");
-        int lineIndex = sequenceStr.lastIndexOf("\n");
-        int bracketIndex = sequenceStr.lastIndexOf("(");
+        // Iterate until find space, newline or (, starting from the current cursor position
+        for (int i = cursor - 1; i >= 0; i--) {
+            // Return the next position after the prefix character
+            final char c = sequenceStr.charAt(i);
+            if (c == ' ' || c == '\n' || c == '(') return i + 1;
+        }
 
-        int index = Math.max(0, Math.max(spaceIndex, Math.max(lineIndex, bracketIndex)));
-        if(index == 0) return 0;
-        return (index + 1 < charSequence.length()) ? index + 1 : index;
+        // If no prefix character found then token start is the start of text
+        return 0;
     }
 
     @Override
