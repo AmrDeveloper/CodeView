@@ -812,11 +812,9 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
         public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
             if (!modified) return;
 
-            if(highlightWhileTextChanging) {
-                if (mSyntaxPatternMap.size() > 0) {
-                    convertTabs(getEditableText(), start, count);
-                    mUpdateHandler.postDelayed(mUpdateRunnable, mUpdateDelayTime);
-                }
+            if(highlightWhileTextChanging && mSyntaxPatternMap.size() > 0) {
+                convertTabs(getEditableText(), start, count);
+                mUpdateHandler.postDelayed(mUpdateRunnable, mUpdateDelayTime);
             }
 
             if (mRemoveErrorsWhenTextChanged) removeAllErrorLines();
@@ -852,9 +850,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if(!highlightWhileTextChanging) {
-                if (!modified) return;
-
+            if(!highlightWhileTextChanging && modified) {
                 cancelHighlighterRender();
 
                 if (mSyntaxPatternMap.size() > 0) {
