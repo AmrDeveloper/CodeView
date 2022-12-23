@@ -3,7 +3,7 @@
 It's easy to add CodeView in your XML layout, notes that CodeView is based on AppCompatMultiAutoCompleteTextView,
 so you can easily customize it like any AutoCompleteTextView
 
-```
+``` xml
 <com.amrdeveloper.codeview.CodeView
     android:id="@+id/codeView"
     android:layout_width="match_parent"
