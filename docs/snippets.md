@@ -4,7 +4,7 @@ Starting From version 1.1.1 CodeView now have support for snippts.
 
 In the CodeView library keywords and snippets are classes that implementing the Code interface.
 
-```
+``` java
 public interface Code {
     String getCodeTitle();
     String getCodePrefix();
@@ -22,7 +22,7 @@ This class has three attributes title, prefix and body, It’s important to know
 
 Add Custom AutoComplete Adapter that support Snippets
 
-```
+``` java
 List<Code> codes = new ArrayList<>();
 codes.add(new Snippet(..., ..., ...));
 
@@ -30,7 +30,7 @@ codes.add(new Snippet(..., ..., ...));
 String[] languageKeywords = .....
 // List item custom layout
 int layoutId = .....
-// TextView id on your custom layout to put suggestion on it
+// TextView id on your custom layout to put suggestion on it R.layout.yourlayout
 int viewId = .....
 
 CodeViewAdapter codeAdapter = new CodeViewAdapter(context, layoutId, viewId, codes);

@@ -13,24 +13,24 @@ Now after you understanding how auto indenting works, it's time to know how to c
 
 ### Set Indentations Starts set of characters
 
-```
+``` java
 codeView.setIndentationStarts(indentationStart);
 ```
 
 ### Set Indentations Ends set of characters
 
-```
+``` java
 codeView.setIndentationEnds(indentationEnds);
 ```
 
 ### Enable/Disable Auto Indentation
 
-```
+``` java
 codeView.setEnableAutoIndentation(enableIndentation);
 ```
 
 ### Set Tab length
 
-```
+``` java
 codeView.setTabLength(tabLength);
 ```
