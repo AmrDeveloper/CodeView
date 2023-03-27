@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.3.8 *(2023-03-27)*
+-----------------------------
+
+* Improve line number text padding with different text sizes
+* Improve the doc for setLineNumberTextSize to be explicit that value is in pixel
+
 Version 1.3.7 *(2022-10-28)*
 -----------------------------
 
