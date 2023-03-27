@@ -186,8 +186,9 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
                     }
                 }
 
-                // Calculate padding depending on current line number
-                final int paddingLeft = 50 + (int) Math.log10(lineCount) * 10;
+                // Calculate padding depending on number of lines and the size of line number text
+                final int lineNumberDigitCount = (int) (Math.log10(lineCount) + 1);
+                final int paddingLeft = (int) (lineNumberPaint.getTextSize() * lineNumberDigitCount);
                 setPadding(paddingLeft, getPaddingTop(), getPaddingRight(), getPaddingBottom());
             }
         }
@@ -638,7 +639,7 @@ public class CodeView extends AppCompatMultiAutoCompleteTextView implements Find
 
     /**
      * Modify the line number text size
-     * @param size The new size value
+     * @param size The new text size in pixel units
      * @since 1.1.0
      */
     public void setLineNumberTextSize(float size) {
