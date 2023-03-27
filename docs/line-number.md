@@ -50,7 +50,7 @@ codeView.setHighlightCurrentLineColor(Color.GREY);
 codeView.setLineNumberTextColor(Color.GREY);
 ```
 
-### Set line number text size
+### Set line number text size in pixels, it recommended to set it within the range of text size
 
 ``` java
 codeView.setLineNumberTextSize(size like 30f);
