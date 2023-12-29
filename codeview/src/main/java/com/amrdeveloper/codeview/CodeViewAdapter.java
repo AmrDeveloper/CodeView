@@ -41,21 +41,22 @@ import java.util.List;
 
 /**
  * Custom base adapter that to use it in CodeView auto complete and snippets feature
- *
+ * <p>
  * CodeViewAdapter supports to take a list of code which can include Keywords and snippets
  *
  * @since 1.1.0
  */
 public class CodeViewAdapter extends BaseAdapter implements Filterable {
 
-    private List<Code> codeList;
     private List<Code> originalCodes;
+    private List<Code> currentSuggestions;
     private final LayoutInflater layoutInflater;
     private final int codeViewLayoutId;
     private final int codeViewTextViewId;
 
     public CodeViewAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List<Code> codes) {
-        this.codeList = codes;
+        this.originalCodes = codes;
+        this.currentSuggestions = new ArrayList<>();
         this.layoutInflater = LayoutInflater.from(context);
         this.codeViewLayoutId = resource;
         this.codeViewTextViewId = textViewResourceId;
@@ -68,23 +69,21 @@ public class CodeViewAdapter extends BaseAdapter implements Filterable {
         }
 
         TextView textViewName = convertView.findViewById(codeViewTextViewId);
-
-        Code currentCode = codeList.get(position);
+        Code currentCode = currentSuggestions.get(position);
         if (currentCode != null) {
             textViewName.setText(currentCode.getCodeTitle());
         }
-
         return convertView;
     }
 
     @Override
     public int getCount() {
-        return codeList.size();
+        return currentSuggestions.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return codeList.get(position);
+        return currentSuggestions.get(position);
     }
 
     @Override
@@ -94,11 +93,13 @@ public class CodeViewAdapter extends BaseAdapter implements Filterable {
 
     /**
      * Update the current code list with new list
+     *
      * @param newCodeList The new code list
      */
     public void updateCodes(List<Code> newCodeList) {
-        codeList.clear();
-        codeList.addAll(newCodeList);
+        currentSuggestions.clear();
+        originalCodes.clear();
+        originalCodes.addAll(newCodeList);
         notifyDataSetChanged();
     }
 
@@ -106,7 +107,8 @@ public class CodeViewAdapter extends BaseAdapter implements Filterable {
      * Clear the current code list and notify data set changed
      */
     public void clearCodes() {
-        codeList.clear();
+        originalCodes.clear();
+        currentSuggestions.clear();
         notifyDataSetChanged();
     }
 
@@ -121,32 +123,29 @@ public class CodeViewAdapter extends BaseAdapter implements Filterable {
             FilterResults results = new FilterResults();
             List<Code> suggestions = new ArrayList<>();
 
-            if (originalCodes == null) {
-                originalCodes = new ArrayList<>(codeList);
-            }
-
-
+            // If no prefix text, show all codes
             if (constraint == null || constraint.length() == 0) {
                 results.values = originalCodes;
                 results.count = originalCodes.size();
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for (Code item : originalCodes) {
-                    if (item.getCodePrefix().toLowerCase().contains(filterPattern)) {
-                        suggestions.add(item);
-                    }
-                }
-                results.values = suggestions;
-                results.count = suggestions.size();
+                return results;
             }
 
+            // Calculate suggestions based on current text
+            String filterPattern = constraint.toString().toLowerCase().trim();
+            for (Code item : originalCodes) {
+                if (item.getCodePrefix().toLowerCase().contains(filterPattern)) {
+                    suggestions.add(item);
+                }
+            }
+
+            results.values = suggestions;
+            results.count = suggestions.size();
             return results;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            codeList = (List<Code>) results.values;
+            currentSuggestions = (List<Code>) results.values;
             notifyDataSetChanged();
         }
 
