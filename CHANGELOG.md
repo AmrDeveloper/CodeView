@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.3.9 *(2023-12-30)*
+-----------------------------
+
+* Handle exchanging code lists at the runtime #43
+
 Version 1.3.8 *(2023-03-27)*
 -----------------------------
 
